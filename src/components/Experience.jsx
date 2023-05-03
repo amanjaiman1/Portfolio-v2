@@ -64,7 +64,7 @@ const Experience = () => {
     </p>
     </motion.div>
     <motion.div variants={ textVariant1() }>
-    <h2 className="text-white text-center font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">
+    <h2 className="text-white sm:text-center font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">
       Work Experience.
     </h2>
     </motion.div>

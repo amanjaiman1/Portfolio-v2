@@ -11,7 +11,7 @@ const Social = () => {
   return (
     <>
       <motion.div variants={textVariant1()}>
-      <h2 className="text-white font-black md:text-[35px] sm:text-[50px] xs:text-[40px] text-[30px]"
+      <h2 className="text-white font-black  md:text-[35px] sm:text-[50px] xs:text-[40px] text-[30px]"
         >Social Profiles</h2>
       </motion.div>
       <p className="border-b-2 border-[#70ebc0] "></p>
@@ -30,7 +30,7 @@ const Social = () => {
     </motion.div>
       <br />
 
-      <footer className="text-center">
+      <footer className="text-center max-sm:mt-20">
         Made with SleepLess Nights 🙂
       </footer>
 

@@ -44,13 +44,15 @@ const ServiceCard2 = ({ index, title, icon }) => {
 const Tech = () => {
   return (
     <>
+    <img
+        className=" mr-auto w-[50%] sm:hidden" src={standingman} alt="man-image" />
     <motion.div
         className=" flex flex-row justify-center items-center text-center"
         
       >
         
         <img
-        className=" mr-auto w-[20%] h-[30%]" src={standingman} alt="man-image" />
+        className=" max-sm:hidden mr-auto w-[20%] h-[30%]" src={standingman} alt="man-image" />
 
       <motion.div
       

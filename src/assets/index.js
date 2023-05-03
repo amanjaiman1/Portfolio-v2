@@ -20,6 +20,7 @@ import facebook from "./Facebook_1.png"
 import twitter from "./twitter.png"
 import personal from "./personal.png"
 import live from "./live.png"
+import warnimg from "./warning.png"
 
 
 import css from "./tech/css.png";
@@ -87,5 +88,6 @@ export {
   facebook,
   twitter,
   personal,
-  live
+  live,
+  warnimg,
 };

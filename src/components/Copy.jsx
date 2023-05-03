@@ -1,11 +1,15 @@
-import React, { useRef, useState, useEffect } from "react";
-import { motion, warning } from "framer-motion";
-import emailjs from "emailjs-com";
+import React, { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
 
 import { styles } from "../styles";
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../utils/motion";
-import { support, warnimg } from "../assets";
+import { support } from "../assets";
+
+// template_26hjic3
+// service_pzrytg2
+// bJBVpgo6aMs-B4M5a
 
 const Contact = () => {
   const formRef = useRef();
@@ -14,29 +18,8 @@ const Contact = () => {
     email: "",
     message: "",
   });
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [loading, setLoading] = useState(false);
-
-  const validate = (values) => {
-    let errors = {};
-
-    if (!values.name.trim()) {
-      errors.name = "Name is required";
-    }
-
-    if (!values.email.trim()) {
-      errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-      errors.email = "Email address is invalid";
-    }
-
-    if (!values.message.trim()) {
-      errors.message = "Message is required";
-    }
-
-    return errors;
-  };
 
   const handleChange = (e) => {
     const { target } = e;
@@ -46,20 +29,18 @@ const Contact = () => {
       ...form,
       [name]: value,
     });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
     setErrors(validate(form));
     setIsSubmitting(true);
   };
 
-  const sendEmail = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
     emailjs
       .send(
-        "service_pzrytg2",
-        "template_26hjic3",
+        'service_pzrytg2',
+        'template_26hjic3',
         {
           from_name: form.name,
           to_name: "Aman Jaiman",
@@ -67,7 +48,7 @@ const Contact = () => {
           to_email: "amanjaiman001@gmail.com",
           message: form.message,
         },
-        "bJBVpgo6aMs-B4M5a" // Replace with your user ID
+        'bJBVpgo6aMs-B4M5a'
       )
       .then(
         () => {
@@ -88,18 +69,6 @@ const Contact = () => {
         }
       );
   };
-
-  // Submit the form if there are no errors
-  useEffect(() => {
-    if (Object.keys(errors).length === 0 && isSubmitting) {
-      setLoading(true);
-      sendEmail();
-      setIsSubmitting(false);
-    }
-  }, [errors]);
-
-  let customMess = "Refresh Again";
-
 
   return (
     <div
@@ -127,12 +96,6 @@ const Contact = () => {
               placeholder="What's your good name?"
               className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
             />
-            {errors.name &&
-             <div className="flex gap-2 ml-2">
-              <img className="w-5 h-5 mt-2" src={warnimg} alt="warning" />
-              <p className={styles.errorText}>{errors.name}</p>
-             </div>
-            }
           </label>
           <label className='flex flex-col'>
             <span className='text-white font-medium mb-4'>Your email</span>
@@ -144,12 +107,6 @@ const Contact = () => {
               placeholder="What's your web address?"
               className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
             />
-            {errors.email &&
-             <div className="flex gap-2 ml-2">
-             <img className="w-5 h-5 mt-2" src={warnimg} alt="warning" />
-             <p className={styles.errorText}>{errors.email}</p>
-            </div>
-            }
           </label>
           <label className='flex flex-col'>
             <span className='text-white font-medium mb-4'>Your Message</span>
@@ -160,28 +117,15 @@ const Contact = () => {
               onChange={handleChange}
               placeholder='What you want to say?'
               className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              
             />
-            {errors.message
-             && 
-             <div className="flex gap-2 ml-2">
-              <img className="w-5 h-5 mt-2" src={warnimg} alt="warning" />
-              <p className={styles.errorText}>{errors.message}</p>
-             </div>
-            }
           </label>
 
           <button
             type='submit'
             className='bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-secondary'
-            disabled={isSubmitting || Object.keys(errors).length > 0}
           >
             {loading ? "Sending..." : "Send"}
-            {errors.message
-             && 
-             <div className="flex gap-2 ml-2">
-              <p className={styles.errorText}>{"Refresh Again Please"}</p>
-             </div>
-            }
           </button>
         </form>
       </motion.div>

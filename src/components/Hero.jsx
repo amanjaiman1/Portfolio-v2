@@ -26,7 +26,7 @@ const Hero = () => {
           }}
           className = " translate-y-6 w-10 h-10 rounded-full bg-[#3a2f50]"
            />
-          <div className = "w-1 sm:h-48 h-40 bg-[#13072c] " />
+          <div className = "w-1 sm:h-48 max-sm:h-[405px] bg-[#13072c] " />
 
         </div>
 
@@ -37,7 +37,7 @@ const Hero = () => {
           </h1>
 
           <p className={`${styles.heroSubText}
-            mt-2 text-[40px] text-white-100 text_shadows`}>
+            mt-2 text-[30px] text-white-100 text_shadows`}>
               <span className="text-[#2a2338] font-bold ">I </span> develop <span className="text-[#2a2338] font-bold"> Eye Seducing </span> Websites
                <br className="sm:block " />
               with user friendly.
@@ -46,7 +46,7 @@ const Hero = () => {
 
       </div>
 
-      <div className='absolute xs:bottom-10 bottom-32 w-full flex flex-row justify-center items-center'>
+      <div className='absolute xs:bottom-10 bottom-32 max-sm:top-[60%] w-full flex flex-row justify-center items-center'>
         <img src={manoffice} alt="" className=" border-b-2 " />
       </div>
 

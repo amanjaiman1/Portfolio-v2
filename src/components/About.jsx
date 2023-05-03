@@ -41,6 +41,37 @@ const ServiceCard = ({ index, title, icon }) => {
   )
 }
 
+const ServiceCard2 = ({ index, title, icon }) => {
+  return (
+    <Tilt className="w-[250px] justify-center ml-10">
+      <motion.div 
+        className = "w-full bg-[#020810a1]  p-[1px] rounded-[20px] shadow-card "
+      
+      >
+
+        <div
+          options = {{
+            max: 45,
+            scale: 1,
+            speed: 450
+          }}
+          className="backdrop:blur-sm rounded-[20px]
+           py-5 px-12 min-h-[280px]  flex justify-evenly
+           items-center flex-col"
+        >
+
+          <img src={icon} alt={title}
+            className="w-16 h-16 object-contain" />
+          <h3 className="text-white text-[20px] 
+          font-bold text-center ">{title}</h3>
+
+        </div>
+
+      </motion.div>
+    </Tilt>
+  )
+}
+
 
 const About = () => {
   const [scroll, setScroll] = useState(false);
@@ -53,7 +84,7 @@ const About = () => {
   return (
     <>
       <motion.div variants={textVariant()} >
-        <p className={`  ${scroll ? "text-[#000000] letter" : "text-[#fdfdfd]" } ${styles.sectionSubText}  `}
+        <p className={`  ${scroll ? "text-[#000000] letter" : "text-[#fdfdfd]" } ${styles.sectionSubText} mt-10  `}
         >Introduction</p>
       </motion.div>
       <motion.div variants={textVariant1()}>
@@ -63,6 +94,7 @@ const About = () => {
 
       <motion.p 
         variants= {fadeIn("", "", 0.1, 1)}
+        className=" text-[13px]"
       >
        I'm an expert software developer with expertise in Java,
         Javascript, Node.js, React.js, and Three.js. I am quick
@@ -79,13 +111,21 @@ const About = () => {
         whileTap={{ scale: 0, rotateY: -90 ,borderRadius:"50%" }}
       >
 
-      <div className="mt-20 flex flex-wrap gap-10">
+      <div className="mt-20 flex flex-wrap max-sm:hidden gap-10">
         {services.map((service, index) => (
           <ServiceCard key={service.title} index={index} {...service} />
         ))}
-
       </div>
+      </motion.div>
 
+      {/* for mobile only  */}
+
+      <motion.div>
+      <div className="mt-20 flex-wrap flex sm:hidden gap-10">
+        {services.map((service, index) => (
+          <ServiceCard2 key={service.title} index={index} {...service} />
+        ))}
+      </div>
       </motion.div>
 
 
