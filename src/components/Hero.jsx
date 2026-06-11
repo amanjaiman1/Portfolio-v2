@@ -1,28 +1,12 @@
 import { lazy, Suspense, useState } from "react";
 import { motion } from "framer-motion";
 
-import { styles } from "../styles";
 import { profile, blobPresets } from "../constants";
 import { useLenis, scrollToId } from "./SmoothScroll";
 import { EASE } from "../utils/motion";
 
 // Defer the three.js bundle so it loads after first paint
 const BlobCanvas = lazy(() => import("./canvas/Blob"));
-
-// A single line that rises from behind a mask with dramatic timing
-const Line = ({ children, delay = 0, className = "" }) => (
-  <span className="reveal-mask">
-    <motion.span
-      initial={{ y: "120%", rotateX: -20 }}
-      animate={{ y: "0%", rotateX: 0 }}
-      transition={{ duration: 1.2, delay, ease: EASE }}
-      className={`block ${className}`}
-      style={{ transformOrigin: "bottom" }}
-    >
-      {children}
-    </motion.span>
-  </span>
-);
 
 // Character-by-character reveal for the name — stunning on both mobile and desktop
 const CharReveal = ({ text, delay = 0, className = "" }) => (
@@ -55,7 +39,7 @@ const Hero = () => {
   return (
     <section
       id="top"
-      className="relative h-[100svh] min-h-[680px] w-full overflow-hidden"
+      className="relative flex h-[100svh] min-h-[640px] w-full flex-col overflow-hidden"
     >
       {/* soft background spotlight */}
       <div className="spotlight pointer-events-none absolute inset-0" />
@@ -63,7 +47,7 @@ const Hero = () => {
       {/* CSS fallback blob (sits behind the canvas) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[50vmin] w-[50vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl transition-colors duration-700 sm:h-[60vmin] sm:w-[60vmin]"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[55vmin] w-[55vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl transition-colors duration-700 sm:h-[60vmin] sm:w-[60vmin]"
         style={{
           background: `radial-gradient(circle at 35% 35%, ${preset.colorA}, ${preset.colorB} 60%, transparent 75%)`,
           opacity: 0.5,
@@ -87,125 +71,153 @@ const Hero = () => {
         </Suspense>
       </div>
 
-      {/* Top labels — hidden on mobile */}
-      <div className="pointer-events-none absolute inset-x-0 top-[80px] z-10 mx-auto hidden max-w-[1400px] items-start justify-between px-5 sm:top-[88px] sm:flex sm:px-10 lg:px-16">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 1.8, ease: EASE }}
-          className={styles.eyebrow}
-        >
-          <span>Creative</span>
-          <br />
-          <span>Developer</span>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 1.8, ease: EASE }}
-          className={`${styles.eyebrow} text-right`}
-        >
-          <span>{profile.location} &mdash; Remote</span>
-          <br />
-          <span>{profile.available}</span>
-        </motion.div>
-      </div>
-
-      {/* Headline — the showstopper */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[160px] z-10 mx-auto max-w-[1400px] px-5 xs:bottom-[145px] sm:bottom-[112px] sm:px-10 lg:px-16">
-        <h1 className={styles.display}>
-          {/* Mobile: stack vertically */}
-          <span className="block sm:hidden">
-            <CharReveal text="Aman" delay={1.3} />
-          </span>
-          <span className="block sm:hidden">
-            <CharReveal text="Jaiman" delay={1.6} className="text-iridescent" />
-          </span>
-
-          {/* Desktop: inline with subtitle */}
-          <span className="hidden sm:block">
-            <CharReveal text="Aman" delay={1.3} />
-          </span>
-          <span className="hidden items-end gap-x-6 sm:flex">
-            <CharReveal text="Jaiman" delay={1.6} className="text-iridescent" />
-            <Line
-              delay={2.1}
-              className="mb-1 font-serif-soft text-[18px] font-light italic leading-tight text-cream-200 lg:text-[22px]"
-            >
-              — software, shaped like art.
-            </Line>
-          </span>
-        </h1>
-
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.2, duration: 1.2, ease: EASE }}
-          className="mt-4 max-w-xl font-sans text-[14px] leading-relaxed text-cream-200/80 sm:mt-6 sm:text-[17px]"
-        >
-          {profile.tagline}
-        </motion.p>
-
-        {/* Mobile subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.4, duration: 0.8, ease: EASE }}
-          className="mt-2 font-serif-soft text-[13px] italic text-cream-200/60 sm:hidden"
-        >
-          — software, shaped like art.
-        </motion.p>
-      </div>
-
-      {/* Bottom row: mixer + scroll cue */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2.5, duration: 1, ease: EASE }}
-        className="absolute inset-x-0 bottom-5 z-20 mx-auto flex max-w-[1400px] items-end justify-between px-5 sm:bottom-7 sm:px-10 lg:px-16"
-      >
-        {/* Blob mixer */}
-        <div className="pointer-events-auto">
-          <p className="mb-2 hidden font-sans text-[10px] uppercase tracking-[0.3em] text-cream-300 sm:block">
-            Mix the blob
-          </p>
-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
-            {blobPresets.map((p, i) => (
-              <button
-                key={p.name}
-                data-cursor
-                onClick={() => setActive(i)}
-                className={`rounded-full border px-2.5 py-1 font-sans text-[11px] transition-all duration-300 sm:px-3 sm:py-1.5 sm:text-[12px] ${
-                  active === i
-                    ? "border-transparent bg-cream-100 text-ink-900"
-                    : "border-cream-100/20 text-cream-200 hover:border-cream-100/50"
-                }`}
-              >
-                {p.name}
-              </button>
-            ))}
-          </div>
+      {/* ---------- Foreground content (flex column, fills the screen) ---------- */}
+      <div className="pointer-events-none relative z-10 mx-auto flex h-full w-full max-w-[1400px] flex-col px-5 pb-6 pt-[84px] sm:px-10 sm:pb-8 sm:pt-[116px] lg:px-16">
+        {/* Top labels — now visible on mobile too */}
+        <div className="flex items-start justify-between gap-4">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 1.6, ease: EASE }}
+            className="font-sans text-[10px] uppercase leading-relaxed tracking-[0.18em] text-cream-300 sm:text-[12px] sm:tracking-[0.35em]"
+          >
+            <span>Creative</span>
+            <br />
+            <span>Developer</span>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 1.6, ease: EASE }}
+            className="text-right font-sans text-[10px] uppercase leading-relaxed tracking-[0.18em] text-cream-300 sm:text-[12px] sm:tracking-[0.35em]"
+          >
+            <span>{profile.location} &mdash; Remote</span>
+            <br />
+            <span className="hidden xs:inline">{profile.available}</span>
+            <span className="xs:hidden">Open &rsquo;26</span>
+          </motion.div>
         </div>
 
-        {/* Scroll cue */}
-        <button
-          data-cursor
-          onClick={() => scrollToId(lenis, "about")}
-          className="pointer-events-auto hidden flex-col items-center gap-2 sm:flex"
-        >
-          <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-cream-300">
-            Scroll
-          </span>
-          <span className="relative flex h-12 w-[1px] overflow-hidden bg-cream-100/20">
-            <motion.span
-              className="absolute left-0 top-0 h-1/2 w-full bg-cream-100"
-              animate={{ y: ["-100%", "200%"] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </span>
-        </button>
-      </motion.div>
+        {/* Headline block — pushed to the bottom, blob breathes in the gap above */}
+        <div className="mt-auto">
+          {/* Availability pill */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 0.8, ease: EASE }}
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-cream-100/15 bg-cream-100/5 px-3.5 py-1.5 backdrop-blur-sm sm:mb-6"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-iris-mint opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-iris-mint" />
+            </span>
+            <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-cream-200 sm:text-[11px]">
+              Available for new work
+            </span>
+          </motion.div>
+
+          {/* Name — the showstopper, always the full "Aman Jaiman" */}
+          <h1 className="font-display font-extrabold leading-[0.9] tracking-tighter text-cream-100 text-[16vw] xs:text-[15vw] sm:text-[10vw] lg:text-[8.5vw]">
+            {/* Mobile: stack vertically */}
+            <span className="block sm:hidden">
+              <CharReveal text="Aman" delay={1.2} />
+            </span>
+            <span className="block sm:hidden">
+              <CharReveal text="Jaiman" delay={1.45} className="text-iridescent" />
+            </span>
+
+            {/* Desktop: name on two lines, subtitle riding the second line */}
+            <span className="hidden sm:block">
+              <CharReveal text="Aman" delay={1.2} />
+            </span>
+            <span className="hidden items-end gap-x-5 sm:flex lg:gap-x-7">
+              <CharReveal text="Jaiman" delay={1.45} className="text-iridescent" />
+              <motion.span
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 2, ease: EASE }}
+                className="mb-[0.18em] whitespace-nowrap font-serif-soft text-[18px] font-light italic leading-snug text-cream-200/85 lg:text-[24px]"
+              >
+                &mdash; software, shaped like art.
+              </motion.span>
+            </span>
+          </h1>
+
+          {/* Mobile subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.9, duration: 0.8, ease: EASE }}
+            className="mt-3 font-serif-soft text-[15px] italic text-cream-200/70 sm:hidden"
+          >
+            &mdash; software, shaped like art.
+          </motion.p>
+
+          {/* Tagline */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.1, duration: 1.2, ease: EASE }}
+            className="mt-4 max-w-xl font-sans text-[14px] leading-relaxed text-cream-200/80 sm:mt-6 sm:text-[17px]"
+          >
+            {profile.tagline}
+          </motion.p>
+
+          {/* Bottom row: blob mixer + scroll cue */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.3, duration: 1, ease: EASE }}
+            className="mt-7 flex items-end justify-between gap-4 sm:mt-10"
+          >
+            {/* Blob mixer */}
+            <div className="pointer-events-auto">
+              <p className="mb-2 font-sans text-[10px] uppercase tracking-[0.3em] text-cream-300">
+                Mix the blob
+              </p>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                {blobPresets.map((p, i) => (
+                  <button
+                    key={p.name}
+                    data-cursor
+                    onClick={() => setActive(i)}
+                    className={`rounded-full border px-2.5 py-1 font-sans text-[11px] transition-all duration-300 sm:px-3 sm:py-1.5 sm:text-[12px] ${
+                      active === i
+                        ? "border-transparent bg-cream-100 text-ink-900"
+                        : "border-cream-100/20 text-cream-200 hover:border-cream-100/50"
+                    }`}
+                  >
+                    {p.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Scroll cue */}
+            <button
+              data-cursor
+              onClick={() => scrollToId(lenis, "about")}
+              className="pointer-events-auto flex shrink-0 flex-col items-center gap-2"
+              aria-label="Scroll to about"
+            >
+              <span className="hidden font-sans text-[10px] uppercase tracking-[0.3em] text-cream-300 sm:block">
+                Scroll
+              </span>
+              <span className="relative flex h-10 w-[1px] overflow-hidden bg-cream-100/20 sm:h-12">
+                <motion.span
+                  className="absolute left-0 top-0 h-1/2 w-full bg-cream-100"
+                  animate={{ y: ["-100%", "200%"] }}
+                  transition={{
+                    duration: 1.8,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+              </span>
+            </button>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
 };

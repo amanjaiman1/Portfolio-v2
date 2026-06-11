@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { styles } from "../styles";
 import { projects } from "../constants";
 import Reveal, { MaskText, ParallaxReveal } from "./Reveal";
@@ -128,14 +128,7 @@ const Works = () => {
       </section>
 
       {/* Full-screen project modal */}
-      <AnimatePresence>
-        {selected && (
-          <ProjectModal
-            project={selected}
-            onClose={() => setSelected(null)}
-          />
-        )}
-      </AnimatePresence>
+      <ProjectModal project={selected} onClose={() => setSelected(null)} />
     </>
   );
 };
