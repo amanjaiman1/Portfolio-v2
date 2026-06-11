@@ -12,7 +12,7 @@ const featured = {
   longDescription:
     "Built as an open-source project headed by me, this tool pushes the boundary of what a web app can feel like. It combines Next.js for routing and SSR, Three.js for the real-time 3D viewport, Firebase for auth and storage, and GPT for AI-powered design generation — all wrapped in a buttery Tailwind UI.",
   tags: ["Next.js", "Tailwind CSS", "Firebase", "GPT", "Three.js"],
-  image: "/projects/3DTshirt.png",
+  image: "/projects/3DTshirt.jpg",
   link: "https://product-3-d.vercel.app/",
   highlights: [
     { label: "Real-time 3D", value: "Three.js viewport with HDRI lighting" },
