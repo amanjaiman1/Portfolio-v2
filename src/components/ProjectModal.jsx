@@ -3,42 +3,68 @@ import { motion, AnimatePresence } from "framer-motion";
 import { EASE } from "../utils/motion";
 import { useLenis } from "./SmoothScroll";
 
+// Extraordinary entrance: the backdrop sweeps in with blur
 const backdrop = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.35, ease: EASE } },
-  exit: { opacity: 0, transition: { duration: 0.3, ease: EASE } },
-};
-
-const modal = {
-  hidden: { opacity: 0, scale: 0.92, y: 40 },
   show: {
     opacity: 1,
-    scale: 1,
+    transition: { duration: 0.5, ease: EASE },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.45, ease: EASE, delay: 0.1 },
+  },
+};
+
+// The card: enters from below with a dramatic spring, slight rotation, and blur clearing
+const card = {
+  hidden: {
+    opacity: 0,
+    y: 100,
+    scale: 0.85,
+    rotateX: 8,
+    filter: "blur(12px)",
+  },
+  show: {
+    opacity: 1,
     y: 0,
+    scale: 1,
+    rotateX: 0,
+    filter: "blur(0px)",
     transition: {
-      duration: 0.55,
-      ease: EASE,
-      staggerChildren: 0.05,
-      delayChildren: 0.12,
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1], // custom spring-like bezier
+      staggerChildren: 0.06,
+      delayChildren: 0.2,
     },
   },
   exit: {
     opacity: 0,
-    scale: 0.95,
-    y: 30,
-    transition: { duration: 0.3, ease: EASE },
+    y: -60,
+    scale: 0.9,
+    rotateX: -5,
+    filter: "blur(8px)",
+    transition: {
+      duration: 0.45,
+      ease: EASE,
+    },
   },
 };
 
-const itemUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+// Content items slide up with a stagger
+const itemReveal = {
+  hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.55, ease: EASE },
+  },
 };
 
 const ProjectModal = ({ project, onClose }) => {
   const lenis = useLenis();
 
-  // Lock background scroll + close on Escape while the modal is open
   useEffect(() => {
     if (!project) return;
     lenis?.stop();
@@ -60,76 +86,88 @@ const ProjectModal = ({ project, onClose }) => {
     <AnimatePresence>
       {project && (
         <motion.div
-          className="fixed inset-0 z-[200] flex items-center justify-center px-3 py-16 sm:px-6 sm:py-10"
+          className="fixed inset-0 z-[200] flex items-center justify-center px-3 py-14 sm:px-6 sm:py-10"
           variants={backdrop}
           initial="hidden"
           animate="show"
           exit="exit"
           onClick={onClose}
+          style={{ perspective: "1200px" }}
         >
-          {/* Dark overlay with blur */}
-          <div className="absolute inset-0 bg-ink-900/85 backdrop-blur-xl" />
-
-          {/* Decorative glow orbs */}
+          {/* Dark overlay */}
           <motion.div
-            className="pointer-events-none absolute left-[15%] top-[15%] h-[28vmax] w-[28vmax] rounded-full bg-iris-lilac/15 blur-3xl"
+            className="absolute inset-0 bg-ink-900/90 backdrop-blur-2xl"
+            initial={{ backdropFilter: "blur(0px)" }}
+            animate={{ backdropFilter: "blur(24px)" }}
+            exit={{ backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.5, ease: EASE }}
+          />
+
+          {/* Glow orbs — animate in with a pop */}
+          <motion.div
+            className="pointer-events-none absolute left-[10%] top-[20%] h-[30vmax] w-[30vmax] rounded-full bg-iris-lilac/12 blur-[80px]"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: 0.9, ease: EASE }}
+            exit={{ scale: 0.5, opacity: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
           />
           <motion.div
-            className="pointer-events-none absolute bottom-[10%] right-[12%] h-[24vmax] w-[24vmax] rounded-full bg-iris-blush/10 blur-3xl"
+            className="pointer-events-none absolute bottom-[15%] right-[8%] h-[25vmax] w-[25vmax] rounded-full bg-iris-blush/10 blur-[60px]"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 0.8 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: 1.1, delay: 0.1, ease: EASE }}
+            exit={{ scale: 0.5, opacity: 0 }}
+            transition={{ duration: 1, delay: 0.15, ease: EASE }}
           />
 
-          {/* Modal card — flex column: fixed image, scrollable content */}
+          {/* Modal card */}
           <motion.div
-            className="iris-border glass relative z-10 flex max-h-[calc(100vh-8rem)] w-full max-w-[920px] flex-col overflow-hidden rounded-[22px] sm:max-h-[calc(100vh-5rem)] sm:rounded-[30px]"
-            variants={modal}
+            className="iris-border glass relative z-10 flex max-h-[calc(100vh-7rem)] w-full max-w-[920px] flex-col overflow-hidden rounded-[20px] sm:max-h-[calc(100vh-5rem)] sm:rounded-[28px]"
+            variants={card}
             initial="hidden"
             animate="show"
             exit="exit"
             onClick={(e) => e.stopPropagation()}
+            style={{ transformStyle: "preserve-3d" }}
           >
-            {/* Image (fixed height) */}
+            {/* Image */}
             <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden">
-              {/* On-brand fallback (shown when no image is available) */}
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-ink-600 via-ink-700 to-ink-800">
-                <span className="px-6 text-center font-display text-[40px] font-extrabold leading-none tracking-tighter text-cream-100/20 sm:text-[68px]">
+                <span className="px-6 text-center font-display text-[36px] font-extrabold leading-none tracking-tighter text-cream-100/15 sm:text-[64px]">
                   {project.name}
                 </span>
-                <span className="font-serif-soft text-[13px] italic text-cream-200/45 sm:text-[15px]">
+                <span className="font-serif-soft text-[12px] italic text-cream-200/30 sm:text-[14px]">
                   {project.role}
                 </span>
               </div>
-              <img
+              <motion.img
                 src={project.image}
                 alt={project.name}
                 className="relative h-full w-full object-cover"
+                initial={{ scale: 1.1 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.8, ease: EASE }}
                 onError={(e) => {
                   e.currentTarget.style.opacity = 0;
                 }}
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent" />
 
-              {/* Close button */}
-              <button
+              {/* Close button with spin on hover */}
+              <motion.button
                 onClick={onClose}
                 data-cursor
                 aria-label="Close"
-                className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-ink-900/60 text-cream-100 backdrop-blur-md transition-all duration-300 hover:bg-cream-100 hover:text-ink-900 sm:right-6 sm:top-6 sm:h-12 sm:w-12"
+                className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-ink-900/60 text-cream-100 backdrop-blur-md transition-all duration-300 hover:rotate-90 hover:bg-cream-100 hover:text-ink-900 sm:right-5 sm:top-5 sm:h-11 sm:w-11"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokeWidth={2}
+                  strokeWidth={2.5}
                   stroke="currentColor"
-                  className="h-5 w-5"
+                  className="h-4 w-4 sm:h-5 sm:w-5"
                 >
                   <path
                     strokeLinecap="round"
@@ -137,57 +175,59 @@ const ProjectModal = ({ project, onClose }) => {
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
-              </button>
+              </motion.button>
             </div>
 
-            {/* Content (scrolls if it overflows) */}
-            <div className="min-h-0 flex-1 overflow-y-auto no-scrollbar p-6 sm:p-9">
+            {/* Content — scrollable */}
+            <div className="min-h-0 flex-1 overflow-y-auto no-scrollbar p-5 sm:p-8">
               {/* Header */}
               <motion.div
-                variants={itemUp}
-                className="flex flex-wrap items-start justify-between gap-4"
+                variants={itemReveal}
+                className="flex flex-wrap items-start justify-between gap-3"
               >
                 <div>
-                  <h2 className="font-display text-[26px] font-extrabold tracking-tight text-cream-100 sm:text-[40px]">
+                  <h2 className="font-display text-[24px] font-extrabold tracking-tight text-cream-100 sm:text-[38px]">
                     {project.name}
                   </h2>
                   <div className="mt-2 flex items-center gap-3">
-                    <span className="font-serif-soft text-[14px] italic text-iris-lilac sm:text-[16px]">
+                    <span className="font-serif-soft text-[13px] italic text-iris-lilac sm:text-[15px]">
                       {project.role}
                     </span>
-                    <span className="font-sans text-[12px] text-cream-300">
+                    <span className="font-sans text-[11px] text-cream-300 sm:text-[12px]">
                       {project.year}
                     </span>
                   </div>
                 </div>
-                <a
+                <motion.a
                   href={project.link}
                   target="_blank"
                   rel="noreferrer"
                   data-cursor
-                  className="group/btn inline-flex shrink-0 items-center gap-2 rounded-full bg-cream-100 px-5 py-2.5 font-sans text-[13px] font-semibold text-ink-900 transition-transform duration-300 hover:scale-105 sm:px-6 sm:py-3 sm:text-[14px]"
+                  className="group/btn inline-flex shrink-0 items-center gap-2 rounded-full bg-cream-100 px-4 py-2 font-sans text-[12px] font-semibold text-ink-900 sm:px-6 sm:py-2.5 sm:text-[14px]"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <span>{project.linkLabel || "Visit"}</span>
                   <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
                     &#8599;
                   </span>
-                </a>
+                </motion.a>
               </motion.div>
 
               {/* Description */}
               <motion.p
-                variants={itemUp}
-                className="mt-6 font-sans text-[14px] leading-[1.7] text-cream-200/80 sm:text-[16px]"
+                variants={itemReveal}
+                className="mt-5 font-sans text-[13px] leading-[1.7] text-cream-200/80 sm:mt-6 sm:text-[15px]"
               >
                 {project.description}
               </motion.p>
 
               {/* Tags */}
-              <motion.div variants={itemUp} className="mt-6 flex flex-wrap gap-2">
+              <motion.div variants={itemReveal} className="mt-5 flex flex-wrap gap-1.5 sm:gap-2">
                 {project.tags.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full border border-cream-100/15 bg-cream-100/5 px-3.5 py-1.5 font-sans text-[12px] text-cream-200 sm:text-[13px]"
+                    className="rounded-full border border-cream-100/15 bg-cream-100/5 px-3 py-1 font-sans text-[11px] text-cream-200 sm:px-3.5 sm:py-1.5 sm:text-[12px]"
                   >
                     #{t}
                   </span>
@@ -195,13 +235,13 @@ const ProjectModal = ({ project, onClose }) => {
               </motion.div>
 
               {/* Divider */}
-              <motion.div variants={itemUp} className="my-6 h-px w-full">
-                <div className="h-full bg-gradient-to-r from-transparent via-iris-lilac/40 to-transparent" />
+              <motion.div variants={itemReveal} className="my-5 h-px w-full sm:my-6">
+                <div className="h-full bg-gradient-to-r from-transparent via-iris-lilac/30 to-transparent" />
               </motion.div>
 
               {/* Link row */}
               <motion.div
-                variants={itemUp}
+                variants={itemReveal}
                 className="flex flex-wrap items-center justify-between gap-3"
               >
                 <a
@@ -209,11 +249,11 @@ const ProjectModal = ({ project, onClose }) => {
                   target="_blank"
                   rel="noreferrer"
                   data-cursor
-                  className="link-sweep break-all font-sans text-[13px] text-cream-100 sm:text-[15px]"
+                  className="link-sweep break-all font-sans text-[12px] text-cream-100 sm:text-[14px]"
                 >
                   {project.link}
                 </a>
-                <span className="font-sans text-[11px] uppercase tracking-widest text-cream-300">
+                <span className="font-sans text-[10px] uppercase tracking-widest text-cream-300 sm:text-[11px]">
                   {project.year}
                 </span>
               </motion.div>

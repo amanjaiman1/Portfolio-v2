@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { navLinks, profile } from "../constants";
+import { navLinks } from "../constants";
 import { useLenis, scrollToId } from "./SmoothScroll";
 import { EASE } from "../utils/motion";
 
@@ -136,12 +136,6 @@ const Navbar = () => {
                 </motion.li>
               ))}
             </ul>
-            <a
-              href={`mailto:${profile.email}`}
-              className="mt-12 font-sans text-[15px] text-cream-300 underline"
-            >
-              {profile.email}
-            </a>
           </motion.div>
         )}
       </AnimatePresence>
