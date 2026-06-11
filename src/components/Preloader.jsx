@@ -52,7 +52,7 @@ const Preloader = ({ onComplete }) => {
               transition={{ duration: 0.5, delay: 0.5, ease: EASE }}
               className="mt-3 font-sans text-[11px] uppercase tracking-[0.2em] text-cream-300 sm:text-[12px] sm:tracking-[0.3em]"
             >
-              Creative Developer
+              Eye Seducer Dev
             </motion.p>
           </motion.div>
 
