@@ -18,13 +18,22 @@ const ProjectCard = ({ project, index }) => {
       transition={{ duration: 1, ease: EASE }}
       className={`group block ${offset}`}
     >
-      <div className="iris-border relative overflow-hidden rounded-[20px] bg-ink-700">
-        <div className="aspect-[4/3] w-full overflow-hidden">
+      <div className="iris-border relative overflow-hidden rounded-[18px] bg-ink-700 sm:rounded-[20px]">
+        <div className="relative aspect-[4/3] w-full overflow-hidden">
+          {/* on-brand fallback shown until the image is uploaded / while loading */}
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-ink-600 via-ink-700 to-ink-800">
+            <span className="px-4 text-center font-display text-[34px] font-extrabold leading-none tracking-tighter text-cream-100/10 sm:text-[54px]">
+              {project.name}
+            </span>
+          </div>
           <img
             src={project.image}
             alt={project.name}
             loading="lazy"
-            className="h-full w-full object-cover opacity-90 transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:opacity-100"
+            onError={(e) => {
+              e.currentTarget.style.opacity = 0;
+            }}
+            className="relative h-full w-full object-cover opacity-90 transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:opacity-100"
           />
         </div>
 

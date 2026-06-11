@@ -66,7 +66,7 @@ const Hero = () => {
       </div>
 
       {/* Headline */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[120px] z-10 mx-auto max-w-[1400px] px-6 sm:bottom-[112px] sm:px-10 lg:px-16">
+      <div className="pointer-events-none absolute inset-x-0 bottom-[156px] z-10 mx-auto max-w-[1400px] px-6 xs:bottom-[140px] sm:bottom-[112px] sm:px-10 lg:px-16">
         <h1 className={styles.display}>
           <Line delay={1.5}>Aman</Line>
           <span className="flex flex-wrap items-end gap-x-6">

@@ -9,11 +9,11 @@ const Footer = () => {
   return (
     <footer className="relative overflow-hidden border-t border-cream-100/10 pt-20">
       {/* Big closing marquee */}
-      <div className="pb-10">
+      <div className="pb-12">
         <Marquee
           items={["Let's build", "Say hello", "Open to work"]}
           duration="26s"
-          className="font-display text-[12vw] font-extrabold uppercase tracking-tighter text-outline"
+          className="font-display text-[15vw] font-extrabold uppercase leading-none tracking-tighter text-cream-100 sm:text-[11vw]"
           separator="•"
         />
       </div>

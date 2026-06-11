@@ -57,9 +57,9 @@ export const about = {
     "Working closely with people and brands, I shape interfaces with Java, JavaScript, Node.js, React and Three.js. I learn fast, sweat the details, and obsess over the feeling a screen leaves behind.",
   ],
   stats: [
-    { value: "3+", label: "Years building" },
-    { value: "15+", label: "Projects shipped" },
-    { value: "5", label: "Happy teams" },
+    { value: "4+", label: "Years building" },
+    { value: "18+", label: "Projects shipped" },
+    { value: "250+", label: "Students taught" },
   ],
 };
 
@@ -109,6 +109,39 @@ export const techStack = [
 
 // ---------- Experience ----------
 export const experiences = [
+  {
+    title: "Founder & Engineer",
+    company: "Stealth Startup",
+    accent: "#ff9fc4",
+    date: "Jun 2025 — Present",
+    points: [
+      "Building a product end-to-end in stealth mode — owning vision, design, architecture and engineering.",
+      "Shipping fast on a modern React/Next.js stack, sweating every detail from data layer to the last pixel.",
+      "Iterating quickly with real feedback to turn a personal idea into a real, scalable product.",
+    ],
+  },
+  {
+    title: "Front End Engineer",
+    company: "Optus Edtech",
+    accent: "#b9a7ff",
+    date: "May 2024 — Apr 2025",
+    points: [
+      "Engineered responsive, accessible interfaces for an EdTech platform used by learners every day.",
+      "Built a reusable React component library and design-system primitives that sped up delivery.",
+      "Partnered with design and backend to ship polished, performant UI with smooth, purposeful motion.",
+    ],
+  },
+  {
+    title: "Instructor — DSA",
+    company: "Gyan Ganga Institute of Technology & Sciences",
+    accent: "#a8ecd0",
+    date: "May 2024 — Nov 2024",
+    points: [
+      "Instructed Data Structures & Algorithms to 250+ students over a focused 6-month program.",
+      "Broke down complex topics — trees, graphs, dynamic programming — into intuitive, example-driven lessons.",
+      "Mentored students through problem-solving, coding practice and technical interview preparation.",
+    ],
+  },
   {
     title: "Front End Developer",
     company: "HoneyUncle",
@@ -160,7 +193,45 @@ export const experiences = [
 ];
 
 // ---------- Projects ----------
+// Newest first. Images for the 2026 projects live in /public/projects and are
+// referenced by path (uploaded manually), so they work without an import.
 export const projects = [
+  {
+    name: "Warlife",
+    year: "2026",
+    role: "Personal Blog",
+    description:
+      "A personal blogging website where I share stories, learnings and ideas — fast, content-first and a joy to read, with buttery page transitions.",
+    tags: ["Astro", "Tailwind CSS", "Framer Motion"],
+    image: "/projects/warlife.jpg",
+    link: "https://warlife.in",
+    linkIcon: live,
+    linkLabel: "Live",
+  },
+  {
+    name: "FrankCalculator",
+    year: "2026",
+    role: "FinTech",
+    description:
+      "A multipurpose financial calculator suite — including a workers' comp settlement calculator — that turns complex money math into clear, instant answers.",
+    tags: ["Astro", "Tailwind CSS"],
+    image: "/projects/frankcalculator.jpg",
+    link: "https://frankcalculator.com",
+    linkIcon: live,
+    linkLabel: "Live",
+  },
+  {
+    name: "SortandVisualize",
+    year: "2026",
+    role: "Algo Visualizer",
+    description:
+      "A sorting-algorithm visualizer packed with ultra features — real-time animation, 3D visuals and fine-grained controls that make algorithms click.",
+    tags: ["Next.js", "Tailwind CSS", "Three.js", "Framer Motion"],
+    image: "/projects/sortandvisualize.jpg",
+    link: "https://sortandvisualize.com",
+    linkIcon: live,
+    linkLabel: "Live",
+  },
   {
     name: "GPT-2.0",
     year: "2023",
@@ -170,6 +241,18 @@ export const projects = [
     tags: ["Vanilla", "Vite", "Express"],
     image: chatgpt,
     link: "https://github.com/amanjaiman1/GPT_2.0",
+    linkIcon: github,
+    linkLabel: "Source",
+  },
+  {
+    name: "Personal Portfolio",
+    year: "2023",
+    role: "Creative Dev",
+    description:
+      "The previous iteration of my personal portfolio — playful, interactive and built from scratch.",
+    tags: ["React", "Vite", "Three.js", "Tailwind"],
+    image: personal,
+    link: "https://github.com/amanjaiman1/Porfolio-v1",
     linkIcon: github,
     linkLabel: "Source",
   },
@@ -194,18 +277,6 @@ export const projects = [
     tags: ["JavaScript", "Bootstrap", "SCSS"],
     image: HoneyUncle,
     link: "https://github.com/amanjaiman1/InternHoneyUncle",
-    linkIcon: github,
-    linkLabel: "Source",
-  },
-  {
-    name: "Personal Portfolio",
-    year: "2023",
-    role: "Creative Dev",
-    description:
-      "The previous iteration of my personal portfolio — playful, interactive and built from scratch.",
-    tags: ["React", "Vite", "Three.js", "Tailwind"],
-    image: personal,
-    link: "https://github.com/amanjaiman1/Porfolio-v1",
     linkIcon: github,
     linkLabel: "Source",
   },

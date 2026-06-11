@@ -25,6 +25,10 @@ const BlobMesh = ({ preset }) => {
   const targetA = useRef(new THREE.Color());
   const targetB = useRef(new THREE.Color());
 
+  // lighter geometry on small screens for smooth mobile performance
+  const seg =
+    typeof window !== "undefined" && window.innerWidth < 768 ? 100 : 168;
+
 
   useFrame((state, delta) => {
     const mesh = meshRef.current;
@@ -66,7 +70,7 @@ const BlobMesh = ({ preset }) => {
     <Float speed={1.4} rotationIntensity={0.25} floatIntensity={0.6}>
       <Sphere
         ref={meshRef}
-        args={[1.35, 192, 192]}
+        args={[1.35, seg, seg]}
         onPointerDown={() => (pressed.current = true)}
         onPointerUp={() => (pressed.current = false)}
         onPointerOut={() => (pressed.current = false)}
@@ -117,7 +121,7 @@ const BlobCanvas = ({ preset }) => {
   return (
     <Canvas
       className="!touch-none"
-      dpr={[1, 2]}
+      dpr={[1, 1.75]}
       camera={{ position: [0, 0, 5], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
     >
