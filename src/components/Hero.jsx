@@ -147,28 +147,10 @@ const Hero = () => {
             <span className="hidden sm:block">
               <CharReveal text="Aman" delay={1.2} />
             </span>
-            <span className="hidden items-end gap-x-5 sm:flex lg:gap-x-7">
+            <span className="hidden sm:block">
               <WordReveal text="Jaiman" delay={1.45} className="text-iridescent" />
-              <motion.span
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 2, ease: EASE }}
-                className="mb-[0.18em] whitespace-nowrap font-serif-soft text-[18px] font-light italic leading-snug text-cream-200/85 lg:text-[24px]"
-              >
-                &mdash; software, shaped like art.
-              </motion.span>
             </span>
           </h1>
-
-          {/* Mobile subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.9, duration: 0.8, ease: EASE }}
-            className="mt-3 font-serif-soft text-[15px] italic text-cream-200/70 sm:hidden"
-          >
-            &mdash; software, shaped like art.
-          </motion.p>
 
           {/* Tagline */}
           <motion.p
