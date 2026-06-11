@@ -118,16 +118,17 @@ const Satellites = () => {
 
 
 const BlobCanvas = ({ preset }) => {
-  // Wider FOV on mobile pushes the blob further back (appears smaller)
+  // On mobile: push camera far back + widen FOV to make blob ~5x smaller
   const isMobile =
     typeof window !== "undefined" && window.innerWidth < 768;
-  const fov = isMobile ? 56 : 42;
+  const fov = isMobile ? 64 : 42;
+  const camZ = isMobile ? 18 : 5;
 
   return (
     <Canvas
       className="!touch-none"
       dpr={[1, isMobile ? 1.5 : 1.75]}
-      camera={{ position: [0, 0, 5], fov }}
+      camera={{ position: [0, 0, camZ], fov }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
     >
       <ambientLight intensity={0.4} />
