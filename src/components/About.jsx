@@ -27,8 +27,12 @@ const About = () => {
             <h2 className="font-display text-[26px] font-bold leading-[1.15] tracking-tight text-cream-100 sm:text-[40px] lg:text-[56px]">
               <MaskText text="I build for the web where" />
               <br className="hidden sm:block" />
-              <span className="font-serif-soft font-light italic text-iridescent">
-                <MaskText text="engineering meets emotion." delay={0.15} />
+              <span className="font-serif-soft font-light italic">
+                <MaskText
+                  text="engineering meets emotion."
+                  delay={0.15}
+                  wordClassName="text-iridescent"
+                />
               </span>
             </h2>
 

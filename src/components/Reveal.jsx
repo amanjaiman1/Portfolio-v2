@@ -32,8 +32,20 @@ const Reveal = ({
 
 /**
  * MaskText — splits a string into words, each rising from behind a mask.
+ *
+ * `wordClassName` is applied to the inner (animated) span that actually holds
+ * the glyphs. Use it for gradient text (e.g. `text-iridescent`): a CSS
+ * `background-clip: text` gradient must live on the SAME element as the
+ * transform, otherwise the transform creates a new stacking context and the
+ * clipped text renders invisible.
  */
-export const MaskText = ({ text, className = "", delay = 0, stagger = 0.06 }) => {
+export const MaskText = ({
+  text,
+  className = "",
+  wordClassName = "",
+  delay = 0,
+  stagger = 0.06,
+}) => {
   const words = text.split(" ");
   return (
     <span
@@ -47,7 +59,7 @@ export const MaskText = ({ text, className = "", delay = 0, stagger = 0.06 }) =>
           style={{ marginRight: "0.28em" }}
         >
           <motion.span
-            className="inline-block"
+            className={`inline-block ${wordClassName}`}
             initial={{ y: "110%" }}
             whileInView={{ y: "0%" }}
             viewport={{ once: true, amount: 0.4 }}

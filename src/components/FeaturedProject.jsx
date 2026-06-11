@@ -39,9 +39,11 @@ const FeaturedProject = () => {
             <h2 className="mt-4 font-display text-[32px] font-extrabold leading-[0.95] tracking-tighter text-cream-100 sm:text-[48px] lg:text-[64px]">
               <MaskText text="3D T-Shirt" />
               <br />
-              <span className="text-iridescent">
-                <MaskText text="Designer" delay={0.1} />
-              </span>
+              <MaskText
+                text="Designer"
+                delay={0.1}
+                wordClassName="text-iridescent"
+              />
             </h2>
           </div>
           <Reveal delay={0.15}>

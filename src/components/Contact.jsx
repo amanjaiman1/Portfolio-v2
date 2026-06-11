@@ -94,8 +94,12 @@ const Contact = () => {
             <h2 className="font-display text-[34px] font-extrabold leading-[0.95] tracking-tighter text-cream-100 sm:text-[56px] lg:text-[80px]">
               <MaskText text="Let's make" />
               <br />
-              <span className="font-serif-soft font-light italic text-iridescent">
-                <MaskText text="something" delay={0.12} />
+              <span className="font-serif-soft font-light italic">
+                <MaskText
+                  text="something"
+                  delay={0.12}
+                  wordClassName="text-iridescent"
+                />
               </span>{" "}
               <MaskText text="good." delay={0.2} />
             </h2>

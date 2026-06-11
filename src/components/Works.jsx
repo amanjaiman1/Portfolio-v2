@@ -103,9 +103,7 @@ const Works = () => {
             <h2 className={styles.heading}>
               <MaskText text="Selected" />
               <br />
-              <span className="text-iridescent">
-                <MaskText text="Work" delay={0.1} />
-              </span>
+              <MaskText text="Work" delay={0.1} wordClassName="text-iridescent" />
             </h2>
             <Reveal delay={0.1}>
               <span className="font-sans text-[13px] text-cream-300">

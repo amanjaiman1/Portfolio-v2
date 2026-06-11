@@ -31,6 +31,23 @@ const CharReveal = ({ text, delay = 0, className = "" }) => (
   </span>
 );
 
+// Whole-word reveal — used for the iridescent name. A `background-clip: text`
+// gradient MUST live on the same element as the transform; otherwise the
+// transform spawns a new stacking context and the clipped text renders
+// invisible (this is why "Jaiman" was disappearing).
+const WordReveal = ({ text, delay = 0, className = "" }) => (
+  <span className="reveal-mask">
+    <motion.span
+      className={`inline-block ${className}`}
+      initial={{ y: "120%", opacity: 0 }}
+      animate={{ y: "0%", opacity: 1 }}
+      transition={{ duration: 0.9, delay, ease: EASE }}
+    >
+      {text}
+    </motion.span>
+  </span>
+);
+
 const Hero = () => {
   const lenis = useLenis();
   const [active, setActive] = useState(0);
@@ -123,7 +140,7 @@ const Hero = () => {
               <CharReveal text="Aman" delay={1.2} />
             </span>
             <span className="block sm:hidden">
-              <CharReveal text="Jaiman" delay={1.45} className="text-iridescent" />
+              <WordReveal text="Jaiman" delay={1.45} className="text-iridescent" />
             </span>
 
             {/* Desktop: name on two lines, subtitle riding the second line */}
@@ -131,7 +148,7 @@ const Hero = () => {
               <CharReveal text="Aman" delay={1.2} />
             </span>
             <span className="hidden items-end gap-x-5 sm:flex lg:gap-x-7">
-              <CharReveal text="Jaiman" delay={1.45} className="text-iridescent" />
+              <WordReveal text="Jaiman" delay={1.45} className="text-iridescent" />
               <motion.span
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
