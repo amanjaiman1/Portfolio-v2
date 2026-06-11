@@ -74,7 +74,7 @@ const Footer = () => {
 
         <div className="flex flex-col items-center justify-between gap-3 border-t border-cream-100/10 py-6 sm:flex-row">
           <p className="font-sans text-[12px] text-cream-300">
-            &copy; {year} {profile.name}. Made with sleepless nights.
+            Made with sleepless nights.
           </p>
           <p className="font-sans text-[12px] text-cream-300">
             Designed &amp; built with React, Three.js &amp; care.
