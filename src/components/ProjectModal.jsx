@@ -86,7 +86,7 @@ const ProjectModal = ({ project, onClose }) => {
     <AnimatePresence>
       {project && (
         <motion.div
-          className="fixed inset-0 z-[200] flex items-center justify-center px-3 py-14 sm:px-6 sm:py-10"
+          className="fixed inset-0 z-[200] flex items-center justify-center px-3 py-14 sm:px-8 sm:pt-24 sm:pb-10"
           variants={backdrop}
           initial="hidden"
           animate="show"
@@ -121,7 +121,7 @@ const ProjectModal = ({ project, onClose }) => {
 
           {/* Modal card */}
           <motion.div
-            className="iris-border glass relative z-10 flex max-h-[calc(100vh-7rem)] w-full max-w-[920px] flex-col overflow-hidden rounded-[20px] sm:max-h-[calc(100vh-5rem)] sm:rounded-[28px]"
+            className="iris-border glass relative z-10 flex max-h-[calc(100vh-7rem)] w-full max-w-[920px] flex-col overflow-hidden rounded-[20px] sm:max-h-[calc(100vh-8.5rem)] sm:rounded-[28px]"
             variants={card}
             initial="hidden"
             animate="show"
