@@ -60,7 +60,7 @@ const ProjectModal = ({ project, onClose }) => {
     <AnimatePresence>
       {project && (
         <motion.div
-          className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-6"
+          className="fixed inset-0 z-[200] flex items-center justify-center px-3 py-16 sm:px-6 sm:py-10"
           variants={backdrop}
           initial="hidden"
           animate="show"
@@ -88,7 +88,7 @@ const ProjectModal = ({ project, onClose }) => {
 
           {/* Modal card — flex column: fixed image, scrollable content */}
           <motion.div
-            className="iris-border glass relative z-10 flex max-h-[92vh] w-full max-w-[920px] flex-col overflow-hidden rounded-[22px] sm:max-h-[88vh] sm:rounded-[30px]"
+            className="iris-border glass relative z-10 flex max-h-[calc(100vh-8rem)] w-full max-w-[920px] flex-col overflow-hidden rounded-[22px] sm:max-h-[calc(100vh-5rem)] sm:rounded-[30px]"
             variants={modal}
             initial="hidden"
             animate="show"
