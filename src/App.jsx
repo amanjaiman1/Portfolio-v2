@@ -8,6 +8,7 @@ import {
   Hero,
   About,
   Capabilities,
+  FeaturedProject,
   Works,
   Experience,
   Testimonials,
@@ -40,6 +41,7 @@ const App = () => {
         <Hero />
         <About />
         <Capabilities />
+        <FeaturedProject />
         <Works />
         <Experience />
         <Testimonials />

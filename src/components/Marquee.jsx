@@ -14,7 +14,7 @@ const Marquee = ({
       {items.map((item, i) => (
         <span key={i} className="flex items-center">
           <span className={className}>{item}</span>
-          <span className="mx-6 text-iris-lilac/70 sm:mx-10" aria-hidden>
+          <span className="mx-4 text-iris-lilac/70 sm:mx-8" aria-hidden>
             {separator}
           </span>
         </span>

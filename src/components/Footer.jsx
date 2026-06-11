@@ -7,18 +7,18 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden border-t border-cream-100/10 pt-20">
+    <footer className="relative overflow-hidden border-t border-cream-100/10 pt-14 sm:pt-20">
       {/* Big closing marquee */}
-      <div className="pb-12">
+      <div className="pb-8 sm:pb-12">
         <Marquee
           items={["Let's build", "Say hello", "Open to work"]}
           duration="26s"
-          className="font-display text-[15vw] font-extrabold uppercase leading-none tracking-tighter text-cream-100 sm:text-[11vw]"
+          className="font-display text-[11vw] font-extrabold uppercase leading-none tracking-tighter text-cream-100 sm:text-[9vw] lg:text-[8vw]"
           separator="•"
         />
       </div>
 
-      <div className="mx-auto w-full max-w-[1400px] px-6 sm:px-10 lg:px-16">
+      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-10 lg:px-16">
         <div className="grid grid-cols-1 gap-10 border-t border-cream-100/10 py-12 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="font-display text-[22px] font-bold text-cream-100">

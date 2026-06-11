@@ -9,6 +9,7 @@ export { default as Hero } from "./Hero";
 export { default as About } from "./About";
 export { default as Capabilities } from "./Capabilities";
 export { default as Works } from "./Works";
+export { default as FeaturedProject } from "./FeaturedProject";
 export { default as Experience } from "./Experience";
 export { default as Testimonials } from "./Testimonials";
 export { default as Contact } from "./Contact";

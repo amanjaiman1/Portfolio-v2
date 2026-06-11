@@ -1,8 +1,8 @@
 const styles = {
   // Layout
   section: "relative w-full",
-  container: "mx-auto w-full max-w-[1400px] px-6 sm:px-10 lg:px-16",
-  paddingY: "py-24 md:py-32",
+  container: "mx-auto w-full max-w-[1400px] px-5 sm:px-10 lg:px-16",
+  paddingY: "py-16 sm:py-24 md:py-32",
 
   // Eyebrow / section label
   eyebrow:
@@ -10,9 +10,9 @@ const styles = {
 
   // Display headings (Syne)
   display:
-    "font-display font-extrabold leading-[0.92] tracking-tighter text-cream-100 text-[13vw] sm:text-[10vw] lg:text-[8.5vw]",
+    "font-display font-extrabold leading-[0.92] tracking-tighter text-cream-100 text-[11vw] sm:text-[10vw] lg:text-[8.5vw]",
   heading:
-    "font-display font-bold leading-[0.95] tracking-tighter text-cream-100 text-[40px] sm:text-[56px] lg:text-[76px]",
+    "font-display font-bold leading-[0.95] tracking-tighter text-cream-100 text-[32px] sm:text-[56px] lg:text-[76px]",
   subheading:
     "font-display font-semibold leading-[1.05] tracking-tight text-cream-100 text-[28px] sm:text-[36px] lg:text-[44px]",
 

@@ -27,7 +27,7 @@ const BlobMesh = ({ preset }) => {
 
   // lighter geometry on small screens for smooth mobile performance
   const seg =
-    typeof window !== "undefined" && window.innerWidth < 768 ? 100 : 168;
+    typeof window !== "undefined" && window.innerWidth < 768 ? 80 : 168;
 
 
   useFrame((state, delta) => {
@@ -118,11 +118,16 @@ const Satellites = () => {
 
 
 const BlobCanvas = ({ preset }) => {
+  // Wider FOV on mobile pushes the blob further back (appears smaller)
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth < 768;
+  const fov = isMobile ? 56 : 42;
+
   return (
     <Canvas
       className="!touch-none"
-      dpr={[1, 1.75]}
-      camera={{ position: [0, 0, 5], fov: 42 }}
+      dpr={[1, isMobile ? 1.5 : 1.75]}
+      camera={{ position: [0, 0, 5], fov }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
     >
       <ambientLight intensity={0.4} />
@@ -131,7 +136,7 @@ const BlobCanvas = ({ preset }) => {
       <pointLight position={[4, -4, 2]} intensity={10} color="#ff9fc4" />
 
       <BlobMesh preset={preset} />
-      <Satellites />
+      {!isMobile && <Satellites />}
 
       {/* In-memory studio environment — pastel reflections, no external HDR */}
       <Environment resolution={256}>

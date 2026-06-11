@@ -87,11 +87,11 @@ const Contact = () => {
   return (
     <section id="contact" className={`${styles.section} ${styles.paddingY}`}>
       <div className={styles.container}>
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-12">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-12">
           {/* Left: invitation */}
           <div>
             <p className={`${styles.eyebrow} mb-8`}>(Contact)</p>
-            <h2 className="font-display text-[44px] font-extrabold leading-[0.95] tracking-tighter text-cream-100 sm:text-[68px] lg:text-[80px]">
+            <h2 className="font-display text-[34px] font-extrabold leading-[0.95] tracking-tighter text-cream-100 sm:text-[56px] lg:text-[80px]">
               <MaskText text="Let's make" />
               <br />
               <span className="font-serif-soft font-light italic text-iridescent">

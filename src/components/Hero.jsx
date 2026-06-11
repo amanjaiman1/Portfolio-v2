@@ -54,7 +54,7 @@ const Hero = () => {
       </div>
 
       {/* Top labels */}
-      <div className="pointer-events-none absolute inset-x-0 top-[88px] z-10 mx-auto flex max-w-[1400px] items-start justify-between px-6 sm:px-10 lg:px-16">
+      <div className="pointer-events-none absolute inset-x-0 top-[80px] z-10 mx-auto flex max-w-[1400px] items-start justify-between px-5 sm:top-[88px] sm:px-10 lg:px-16">
         <div className={styles.eyebrow}>
           <Line delay={1.4}>Creative</Line>
           <Line delay={1.46}>Developer</Line>
@@ -66,7 +66,7 @@ const Hero = () => {
       </div>
 
       {/* Headline */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[156px] z-10 mx-auto max-w-[1400px] px-6 xs:bottom-[140px] sm:bottom-[112px] sm:px-10 lg:px-16">
+      <div className="pointer-events-none absolute inset-x-0 bottom-[170px] z-10 mx-auto max-w-[1400px] px-5 xs:bottom-[155px] sm:bottom-[112px] sm:px-10 lg:px-16">
         <h1 className={styles.display}>
           <Line delay={1.5}>Aman</Line>
           <span className="flex flex-wrap items-end gap-x-6">
@@ -97,7 +97,7 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.1, duration: 1, ease: EASE }}
-        className="absolute inset-x-0 bottom-7 z-20 mx-auto flex max-w-[1400px] items-end justify-between px-6 sm:px-10 lg:px-16"
+        className="absolute inset-x-0 bottom-5 z-20 mx-auto flex max-w-[1400px] items-end justify-between px-5 sm:bottom-7 sm:px-10 lg:px-16"
       >
         {/* Blob mixer */}
         <div className="pointer-events-auto">

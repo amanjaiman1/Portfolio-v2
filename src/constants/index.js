@@ -136,6 +136,7 @@ export const experiences = [
     company: "Gyan Ganga Institute of Technology & Sciences",
     accent: "#a8ecd0",
     date: "May 2024 — Nov 2024",
+    isInstructor: true,
     points: [
       "Instructed Data Structures & Algorithms to 250+ students over a focused 6-month program.",
       "Broke down complex topics — trees, graphs, dynamic programming — into intuitive, example-driven lessons.",
