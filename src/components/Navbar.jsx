@@ -48,7 +48,7 @@ const Navbar = () => {
               </span>
             </span>
             <span className="hidden font-display text-[15px] font-bold tracking-tight text-cream-100 sm:block">
-              Aman Jaiman
+              Me
             </span>
           </button>
 
