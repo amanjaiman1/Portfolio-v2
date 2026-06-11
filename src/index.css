@@ -217,6 +217,11 @@ body {
   white-space: nowrap;
 }
 
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* Number ticker for preloader */
 .tabular {
   font-variant-numeric: tabular-nums;

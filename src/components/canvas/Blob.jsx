@@ -118,11 +118,11 @@ const Satellites = () => {
 
 
 const BlobCanvas = ({ preset }) => {
-  // On mobile: push camera far back + widen FOV to make blob ~5x smaller
+  // On mobile: moderately further camera for a smaller but visible blob
   const isMobile =
     typeof window !== "undefined" && window.innerWidth < 768;
-  const fov = isMobile ? 64 : 42;
-  const camZ = isMobile ? 18 : 5;
+  const fov = isMobile ? 52 : 42;
+  const camZ = isMobile ? 9 : 5;
 
   return (
     <Canvas

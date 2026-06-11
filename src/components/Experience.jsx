@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { styles } from "../styles";
 import { experiences } from "../constants";
-import Reveal, { MaskText } from "./Reveal";
+import Reveal, { MaskText, ScaleReveal } from "./Reveal";
 import { EASE } from "../utils/motion";
 
 const ExperienceRow = ({ exp, index }) => (
-  <Reveal delay={index * 0.05} y={24}>
+  <ScaleReveal delay={index * 0.04}>
     <div className="group grid grid-cols-1 gap-4 border-t border-cream-100/10 py-8 sm:gap-6 sm:py-10 md:grid-cols-12 md:gap-8">
       <div className="md:col-span-3">
         <span className="font-sans text-[12px] text-cream-300 sm:text-[13px]">{exp.date}</span>
@@ -41,7 +41,7 @@ const ExperienceRow = ({ exp, index }) => (
         </ul>
       </div>
     </div>
-  </Reveal>
+  </ScaleReveal>
 );
 
 /**
@@ -49,7 +49,7 @@ const ExperienceRow = ({ exp, index }) => (
  * Rendered as a glass panel with an iridescent border and a "teaching" badge.
  */
 const InstructorCard = ({ exp, index }) => (
-  <Reveal delay={index * 0.05} y={30}>
+  <ScaleReveal delay={index * 0.04}>
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.4, ease: EASE }}
@@ -131,7 +131,7 @@ const InstructorCard = ({ exp, index }) => (
         </div>
       </div>
     </motion.div>
-  </Reveal>
+  </ScaleReveal>
 );
 
 const Experience = () => {

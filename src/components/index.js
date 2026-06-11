@@ -3,7 +3,7 @@ export { default as Cursor } from "./Cursor";
 export { default as Preloader } from "./Preloader";
 export { default as Navbar } from "./Navbar";
 export { default as Marquee } from "./Marquee";
-export { default as Reveal, MaskText } from "./Reveal";
+export { default as Reveal, MaskText, ParallaxReveal, ScaleReveal } from "./Reveal";
 
 export { default as Hero } from "./Hero";
 export { default as About } from "./About";
