@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { EASE } from "../utils/motion";
+import { useIsMobile } from "../utils/useDevice";
 
 /**
  * Reveal — fades/rises content into view on scroll (Pola-style soft entrance).
@@ -32,12 +33,6 @@ const Reveal = ({
 
 /**
  * MaskText — splits a string into words, each rising from behind a mask.
- *
- * `wordClassName` is applied to the inner (animated) span that actually holds
- * the glyphs. Use it for gradient text (e.g. `text-iridescent`): a CSS
- * `background-clip: text` gradient must live on the SAME element as the
- * transform, otherwise the transform creates a new stacking context and the
- * clipped text renders invisible.
  */
 export const MaskText = ({
   text,
@@ -74,15 +69,9 @@ export const MaskText = ({
 };
 
 /**
- * ParallaxReveal — Pola-style: item fades in while parallaxing upward as you scroll.
- * Creates a cinematic, layered depth effect. Great for project cards.
+ * ParallaxReveal — Desktop: scroll-linked parallax. Mobile: one-shot entrance.
  */
-export const ParallaxReveal = ({
-  children,
-  className = "",
-  offset = 80,
-  scaleFrom = 0.94,
-}) => {
+const ParallaxRevealDesktop = ({ children, className, offset, scaleFrom }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -94,34 +83,78 @@ export const ParallaxReveal = ({
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.9, 1], [0, 1, 1, 0.7]);
 
   return (
-    <motion.div
-      ref={ref}
-      style={{ y, scale, opacity }}
-      className={className}
-    >
+    <motion.div ref={ref} style={{ y, scale, opacity }} className={className}>
       {children}
     </motion.div>
   );
 };
 
+const ParallaxRevealMobile = ({ children, className, scaleFrom }) => (
+  <motion.div
+    className={className}
+    initial={{ opacity: 0, y: 44, scale: scaleFrom }}
+    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ duration: 0.7, ease: EASE }}
+  >
+    {children}
+  </motion.div>
+);
+
+export const ParallaxReveal = ({
+  children,
+  className = "",
+  offset = 80,
+  scaleFrom = 0.94,
+}) => {
+  const isMobile = useIsMobile();
+  return isMobile ? (
+    <ParallaxRevealMobile className={className} scaleFrom={scaleFrom}>
+      {children}
+    </ParallaxRevealMobile>
+  ) : (
+    <ParallaxRevealDesktop
+      className={className}
+      offset={offset}
+      scaleFrom={scaleFrom}
+    >
+      {children}
+    </ParallaxRevealDesktop>
+  );
+};
+
 /**
- * ScaleReveal — items grow from small + blurred to full as they scroll into view.
- * Perfect for experience rows and project grids.
+ * ScaleReveal — Desktop: blur clear. Mobile: transform + opacity only.
  */
 export const ScaleReveal = ({
   children,
   className = "",
   delay = 0,
-}) => (
-  <motion.div
-    className={className}
-    initial={{ opacity: 0, scale: 0.88, filter: "blur(6px)" }}
-    whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-    viewport={{ once: true, amount: 0.25 }}
-    transition={{ duration: 0.9, delay, ease: EASE }}
-  >
-    {children}
-  </motion.div>
-);
+}) => {
+  const isMobile = useIsMobile();
+  return (
+    <motion.div
+      className={className}
+      initial={
+        isMobile
+          ? { opacity: 0, scale: 0.92, y: 24 }
+          : { opacity: 0, scale: 0.88, filter: "blur(6px)" }
+      }
+      whileInView={
+        isMobile
+          ? { opacity: 1, scale: 1, y: 0 }
+          : { opacity: 1, scale: 1, filter: "blur(0px)" }
+      }
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{
+        duration: isMobile ? 0.65 : 0.9,
+        delay: isMobile ? Math.min(delay, 0.12) : delay,
+        ease: EASE,
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 export default Reveal;

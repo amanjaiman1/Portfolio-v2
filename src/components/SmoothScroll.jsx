@@ -21,6 +21,13 @@ const SmoothScroll = ({ children }) => {
   const rafRef = useRef(0);
 
   useEffect(() => {
+    // On mobile / touch devices, native scroll is smoother than Lenis.
+    // Lenis adds overhead and fights with the browser's native momentum.
+    const isTouch =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const isNarrow = window.innerWidth < 1024;
+    if (isTouch && isNarrow) return; // bail — native scroll wins on phones
+
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -29,6 +36,7 @@ const SmoothScroll = ({ children }) => {
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: !prefersReduced,
+      smoothTouch: false,
       wheelMultiplier: 1,
       touchMultiplier: 1.6,
     });

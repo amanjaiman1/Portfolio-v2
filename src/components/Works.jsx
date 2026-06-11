@@ -23,7 +23,7 @@ const ProjectCard = ({ project, index, onClick }) => {
         className="group block cursor-pointer"
       >
         <div className="iris-border relative overflow-hidden rounded-[18px] bg-ink-700 sm:rounded-[20px]">
-          <div className="relative aspect-[4/3] w-full overflow-hidden">
+          <div className="relative aspect-video w-full overflow-hidden bg-ink-800">
             {/* on-brand fallback */}
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-ink-600 via-ink-700 to-ink-800">
               <span className="px-4 text-center font-display text-[34px] font-extrabold leading-none tracking-tighter text-cream-100/10 sm:text-[54px]">
@@ -37,7 +37,7 @@ const ProjectCard = ({ project, index, onClick }) => {
               onError={(e) => {
                 e.currentTarget.style.opacity = 0;
               }}
-              className="relative h-full w-full object-cover opacity-90 transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:opacity-100"
+              className="relative h-full w-full object-cover object-center opacity-90 transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:opacity-100"
             />
           </div>
 

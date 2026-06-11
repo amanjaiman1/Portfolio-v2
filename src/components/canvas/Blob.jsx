@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Environment,
@@ -8,13 +8,14 @@ import {
   Sphere,
 } from "@react-three/drei";
 import * as THREE from "three";
+import { useIsMobile } from "../../utils/useDevice";
 
 /**
  * The hero blob — a gooey, metallic, iridescent surface inspired by
  * blobmixer.14islands.com. Color, distortion and material respond to a
  * preset ("mix") and to the pointer. Press it to make it swell.
  */
-const BlobMesh = ({ preset }) => {
+const BlobMesh = ({ preset, isMobile }) => {
   const meshRef = useRef();
   const matRef = useRef();
   const pressed = useRef(false);
@@ -26,8 +27,7 @@ const BlobMesh = ({ preset }) => {
   const targetB = useRef(new THREE.Color());
 
   // lighter geometry on small screens for smooth mobile performance
-  const seg =
-    typeof window !== "undefined" && window.innerWidth < 768 ? 80 : 168;
+  const seg = isMobile ? 64 : 168;
 
 
   useFrame((state, delta) => {
@@ -118,29 +118,55 @@ const Satellites = () => {
 
 
 const BlobCanvas = ({ preset }) => {
+  const isMobile = useIsMobile();
+
   // On mobile: moderately further camera for a smaller but visible blob
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 768;
   const fov = isMobile ? 52 : 42;
   const camZ = isMobile ? 9 : 5;
 
-  return (
+  // Pause the render loop whenever the hero is scrolled out of view (mobile only).
+  const wrapRef = useRef(null);
+  const [inView, setInView] = useState(true);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setInView(true);
+      return;
+    }
+    const el = wrapRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "120px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [isMobile]);
+
+  const frameloop = isMobile && !inView ? "never" : "always";
+
+  const canvas = (
     <Canvas
       className="!touch-none"
-      dpr={[1, isMobile ? 1.5 : 1.75]}
+      frameloop={frameloop}
+      dpr={[1, isMobile ? 1.25 : 1.75]}
       camera={{ position: [0, 0, camZ], fov }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      gl={{
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: isMobile ? "default" : "high-performance",
+      }}
     >
       <ambientLight intensity={0.4} />
       <pointLight position={[5, 5, 5]} intensity={18} color="#ffffff" />
       <pointLight position={[-6, -2, -4]} intensity={14} color="#b9a7ff" />
       <pointLight position={[4, -4, 2]} intensity={10} color="#ff9fc4" />
 
-      <BlobMesh preset={preset} />
+      <BlobMesh preset={preset} isMobile={isMobile} />
       {!isMobile && <Satellites />}
 
       {/* In-memory studio environment — pastel reflections, no external HDR */}
-      <Environment resolution={256}>
+      <Environment resolution={isMobile ? 128 : 256}>
         <color attach="background" args={["#08070b"]} />
         <Lightformer form="circle" intensity={3} color="#b9a7ff" position={[0, 5, -9]} scale={6} />
         <Lightformer form="circle" intensity={2.4} color="#ff9fc4" position={[-5, 1, -6]} scale={4} />
@@ -149,6 +175,16 @@ const BlobCanvas = ({ preset }) => {
         <Lightformer form="rect" intensity={1.5} color="#ffffff" position={[0, 0, 6]} scale={8} />
       </Environment>
     </Canvas>
+  );
+
+  // Desktop: canvas renders directly (no wrapper, always-on).
+  // Mobile: wraps in a div for the IntersectionObserver pause.
+  if (!isMobile) return canvas;
+
+  return (
+    <div ref={wrapRef} className="h-full w-full">
+      {canvas}
+    </div>
   );
 };
 

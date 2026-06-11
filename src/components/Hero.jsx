@@ -8,7 +8,7 @@ import { EASE } from "../utils/motion";
 // Defer the three.js bundle so it loads after first paint
 const BlobCanvas = lazy(() => import("./canvas/Blob"));
 
-// Character-by-character reveal for the name — stunning on both mobile and desktop
+// Character-by-character reveal for the name
 const CharReveal = ({ text, delay = 0, className = "" }) => (
   <span className={`inline-flex ${className}`}>
     {text.split("").map((char, i) => (
@@ -31,10 +31,7 @@ const CharReveal = ({ text, delay = 0, className = "" }) => (
   </span>
 );
 
-// Whole-word reveal — used for the iridescent name. A `background-clip: text`
-// gradient MUST live on the same element as the transform; otherwise the
-// transform spawns a new stacking context and the clipped text renders
-// invisible (this is why "Jaiman" was disappearing).
+// Whole-word reveal for iridescent text
 const WordReveal = ({ text, delay = 0, className = "" }) => (
   <span className="reveal-mask">
     <motion.span
@@ -56,12 +53,12 @@ const Hero = () => {
   return (
     <section
       id="top"
-      className="relative flex h-[100svh] min-h-[640px] w-full flex-col overflow-hidden"
+      className="relative flex h-[100svh] min-h-[580px] w-full flex-col overflow-hidden"
     >
       {/* soft background spotlight */}
       <div className="spotlight pointer-events-none absolute inset-0" />
 
-      {/* CSS fallback blob (sits behind the canvas) */}
+      {/* CSS fallback blob */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 h-[55vmin] w-[55vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl transition-colors duration-700 sm:h-[60vmin] sm:w-[60vmin]"
@@ -88,15 +85,15 @@ const Hero = () => {
         </Suspense>
       </div>
 
-      {/* ---------- Foreground content (flex column, fills the screen) ---------- */}
-      <div className="pointer-events-none relative z-10 mx-auto flex h-full w-full max-w-[1400px] flex-col px-5 pb-6 pt-[84px] sm:px-10 sm:pb-8 sm:pt-[116px] lg:px-16">
-        {/* Top labels — now visible on mobile too */}
+      {/* ---------- Foreground content ---------- */}
+      <div className="pointer-events-none relative z-10 mx-auto flex h-full w-full max-w-[1400px] flex-col px-5 pb-4 pt-[72px] sm:px-10 sm:pb-8 sm:pt-[116px] lg:px-16">
+        {/* Top labels */}
         <div className="flex items-start justify-between gap-4">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 1.6, ease: EASE }}
-            className="font-sans text-[10px] uppercase leading-relaxed tracking-[0.18em] text-cream-300 sm:text-[12px] sm:tracking-[0.35em]"
+            className="font-sans text-[9px] uppercase leading-relaxed tracking-[0.18em] text-cream-300 sm:text-[12px] sm:tracking-[0.35em]"
           >
             <span>Creative</span>
             <br />
@@ -106,7 +103,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 1.6, ease: EASE }}
-            className="text-right font-sans text-[10px] uppercase leading-relaxed tracking-[0.18em] text-cream-300 sm:text-[12px] sm:tracking-[0.35em]"
+            className="text-right font-sans text-[9px] uppercase leading-relaxed tracking-[0.18em] text-cream-300 sm:text-[12px] sm:tracking-[0.35em]"
           >
             <span>{profile.location} &mdash; Remote</span>
             <br />
@@ -115,26 +112,10 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        {/* Headline block — pushed to the bottom, blob breathes in the gap above */}
+        {/* Headline block — pushed to the bottom */}
         <div className="mt-auto">
-          {/* Availability pill */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.8, ease: EASE }}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-cream-100/15 bg-cream-100/5 px-3.5 py-1.5 backdrop-blur-sm sm:mb-6"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-iris-mint opacity-70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-iris-mint" />
-            </span>
-            <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-cream-200 sm:text-[11px]">
-              Available for new work
-            </span>
-          </motion.div>
-
-          {/* Name — the showstopper, always the full "Aman Jaiman" */}
-          <h1 className="font-display font-extrabold leading-[0.9] tracking-tighter text-cream-100 text-[16vw] xs:text-[15vw] sm:text-[10vw] lg:text-[8.5vw]">
+          {/* Name — smaller on mobile so everything fits */}
+          <h1 className="font-display font-extrabold leading-[0.9] tracking-tighter text-cream-100 text-[13vw] xs:text-[12vw] sm:text-[10vw] lg:text-[8.5vw]">
             {/* Mobile: stack vertically */}
             <span className="block sm:hidden">
               <CharReveal text="Aman" delay={1.2} />
@@ -143,7 +124,7 @@ const Hero = () => {
               <WordReveal text="Jaiman" delay={1.45} className="text-iridescent" />
             </span>
 
-            {/* Desktop: name on two lines, subtitle riding the second line */}
+            {/* Desktop */}
             <span className="hidden sm:block">
               <CharReveal text="Aman" delay={1.2} />
             </span>
@@ -152,35 +133,34 @@ const Hero = () => {
             </span>
           </h1>
 
-          {/* Tagline */}
+          {/* Tagline — smaller on mobile */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2.1, duration: 1.2, ease: EASE }}
-            className="mt-4 max-w-xl font-sans text-[14px] leading-relaxed text-cream-200/80 sm:mt-6 sm:text-[17px]"
+            className="mt-2 max-w-xl font-sans text-[12px] leading-relaxed text-cream-200/80 sm:mt-6 sm:text-[17px]"
           >
             {profile.tagline}
           </motion.p>
 
-          {/* Bottom row: blob mixer + scroll cue */}
+          {/* Blob mixer — compact on mobile */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.3, duration: 1, ease: EASE }}
-            className="mt-7 flex items-end justify-between gap-4 sm:mt-10"
+            className="mt-4 sm:mt-10"
           >
-            {/* Blob mixer */}
             <div className="pointer-events-auto">
-              <p className="mb-2 font-sans text-[10px] uppercase tracking-[0.3em] text-cream-300">
+              <p className="mb-1.5 font-sans text-[9px] uppercase tracking-[0.3em] text-cream-300 sm:mb-2 sm:text-[10px]">
                 Mix the blob
               </p>
-              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+              <div className="flex flex-wrap gap-1 sm:gap-2">
                 {blobPresets.map((p, i) => (
                   <button
                     key={p.name}
                     data-cursor
                     onClick={() => setActive(i)}
-                    className={`rounded-full border px-2.5 py-1 font-sans text-[11px] transition-all duration-300 sm:px-3 sm:py-1.5 sm:text-[12px] ${
+                    className={`rounded-full border px-2 py-0.5 font-sans text-[10px] transition-all duration-300 sm:px-3 sm:py-1.5 sm:text-[12px] ${
                       active === i
                         ? "border-transparent bg-cream-100 text-ink-900"
                         : "border-cream-100/20 text-cream-200 hover:border-cream-100/50"
@@ -191,27 +171,45 @@ const Hero = () => {
                 ))}
               </div>
             </div>
+          </motion.div>
 
-            {/* Scroll cue */}
+          {/* Scroll down button — centered, visible on mobile start */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.6, duration: 0.8, ease: EASE }}
+            className="mt-5 flex justify-center sm:mt-8"
+          >
             <button
               data-cursor
               onClick={() => scrollToId(lenis, "about")}
-              className="pointer-events-auto flex shrink-0 flex-col items-center gap-2"
-              aria-label="Scroll to about"
+              className="pointer-events-auto group flex flex-col items-center gap-1.5 sm:gap-2"
+              aria-label="Scroll down"
             >
-              <span className="hidden font-sans text-[10px] uppercase tracking-[0.3em] text-cream-300 sm:block">
-                Scroll
+              <span className="font-sans text-[9px] uppercase tracking-[0.3em] text-cream-300 sm:text-[10px]">
+                Scroll down
               </span>
-              <span className="relative flex h-10 w-[1px] overflow-hidden bg-cream-100/20 sm:h-12">
-                <motion.span
-                  className="absolute left-0 top-0 h-1/2 w-full bg-cream-100"
-                  animate={{ y: ["-100%", "200%"] }}
+              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-cream-100/20 transition-all duration-300 group-hover:border-cream-100/60 group-hover:bg-cream-100/10 sm:h-10 sm:w-10">
+                <motion.svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="h-3.5 w-3.5 text-cream-100 sm:h-4 sm:w-4"
+                  animate={{ y: [0, 3, 0] }}
                   transition={{
-                    duration: 1.8,
+                    duration: 1.5,
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                />
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+                  />
+                </motion.svg>
               </span>
             </button>
           </motion.div>

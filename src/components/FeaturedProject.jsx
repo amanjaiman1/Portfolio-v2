@@ -69,7 +69,7 @@ const FeaturedProject = () => {
             className="group relative lg:col-span-7"
           >
             <div className="iris-border relative overflow-hidden rounded-[20px] sm:rounded-[28px]">
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-ink-600 via-ink-700 to-ink-800">
+              <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-ink-600 via-ink-700 to-ink-800">
                 {/* Fallback */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="px-6 text-center font-display text-[40px] font-extrabold leading-none tracking-tighter text-cream-100/8 sm:text-[72px]">

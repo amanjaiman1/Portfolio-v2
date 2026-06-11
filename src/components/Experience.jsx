@@ -3,15 +3,29 @@ import { styles } from "../styles";
 import { experiences } from "../constants";
 import Reveal, { MaskText } from "./Reveal";
 import { EASE } from "../utils/motion";
+import { useIsMobile } from "../utils/useDevice";
 
 const ExperienceRow = ({ exp, index }) => {
   const isEven = index % 2 === 0;
+  const isMobile = useIsMobile();
   return (
     <motion.div
-      initial={{ opacity: 0, x: isEven ? -60 : 60, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+      initial={
+        isMobile
+          ? { opacity: 0, x: isEven ? -28 : 28 }
+          : { opacity: 0, x: isEven ? -60 : 60, filter: "blur(6px)" }
+      }
+      whileInView={
+        isMobile
+          ? { opacity: 1, x: 0 }
+          : { opacity: 1, x: 0, filter: "blur(0px)" }
+      }
       viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.9, delay: index * 0.04, ease: EASE }}
+      transition={{
+        duration: isMobile ? 0.6 : 0.9,
+        delay: isMobile ? 0 : index * 0.04,
+        ease: EASE,
+      }}
     >
       <div className="group grid grid-cols-1 gap-4 border-t border-cream-100/10 py-8 sm:gap-6 sm:py-10 md:grid-cols-12 md:gap-8">
       <div className="md:col-span-3">
@@ -52,20 +66,30 @@ const ExperienceRow = ({ exp, index }) => {
   );
 };
 
-/**
- * Special instructor card — visually distinct from regular timeline rows.
- * Rendered as a glass panel with an iridescent border and a "teaching" badge.
- */
-const InstructorCard = ({ exp, index }) => (
+const InstructorCard = ({ exp, index }) => {
+  const isMobile = useIsMobile();
+  return (
   <motion.div
-    initial={{ opacity: 0, y: 60, scale: 0.9, rotateX: 8, filter: "blur(8px)" }}
-    whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: "blur(0px)" }}
+    initial={
+      isMobile
+        ? { opacity: 0, y: 36, scale: 0.96 }
+        : { opacity: 0, y: 60, scale: 0.9, rotateX: 8, filter: "blur(8px)" }
+    }
+    whileInView={
+      isMobile
+        ? { opacity: 1, y: 0, scale: 1 }
+        : { opacity: 1, y: 0, scale: 1, rotateX: 0, filter: "blur(0px)" }
+    }
     viewport={{ once: true, amount: 0.2 }}
-    transition={{ duration: 1, delay: index * 0.04, ease: EASE }}
-    style={{ perspective: "1000px" }}
+    transition={{
+      duration: isMobile ? 0.65 : 1,
+      delay: isMobile ? 0 : index * 0.04,
+      ease: EASE,
+    }}
+    style={isMobile ? undefined : { perspective: "1000px" }}
   >
     <motion.div
-      whileHover={{ y: -4 }}
+      whileHover={isMobile ? undefined : { y: -4 }}
       transition={{ duration: 0.4, ease: EASE }}
       className="iris-border glass relative mt-4 mb-4 overflow-hidden rounded-[20px] p-6 sm:mt-6 sm:mb-6 sm:rounded-[24px] sm:p-8"
     >
@@ -146,7 +170,8 @@ const InstructorCard = ({ exp, index }) => (
       </div>
     </motion.div>
   </motion.div>
-);
+  );
+};
 
 const Experience = () => {
   return (

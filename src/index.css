@@ -238,3 +238,26 @@ body {
   .grain { animation: none; }
   .text-iridescent { animation: none; }
 }
+
+/* Mobile performance overrides (phones, <= 768px) */
+@media (max-width: 768px) {
+  .grain {
+    animation: none;
+    opacity: 0.04;
+  }
+
+  .text-iridescent {
+    animation: none;
+  }
+
+  .glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(17, 16, 23, 0.82);
+  }
+
+  [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
