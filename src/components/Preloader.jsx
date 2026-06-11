@@ -38,21 +38,19 @@ const Preloader = ({ onComplete }) => {
     <AnimatePresence onExitComplete={onComplete}>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-ink-900 px-5 sm:flex-row sm:items-end sm:justify-between sm:px-10 sm:pb-10 lg:px-16"
+          className="fixed inset-0 z-[10000] flex flex-col items-center justify-center overflow-hidden bg-ink-900 px-5 sm:flex-row sm:items-end sm:justify-between sm:px-10 sm:pb-10 lg:px-16"
           exit={{ y: "-100%" }}
           transition={{ duration: 1.05, ease: EASE }}
         >
-          {/* Mobile: centered layout. Desktop: bottom-aligned */}
-          
           {/* Word rotation */}
           <div className="flex items-center justify-center sm:items-end sm:justify-start">
-            <span className="font-display text-[12vw] font-extrabold leading-none tracking-tighter text-cream-100 sm:text-[7vw]">
+            <span className="font-display text-[11vw] font-extrabold leading-none tracking-tighter text-cream-100 sm:text-[7vw]">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={wordIndex}
-                  initial={{ opacity: 0, y: 24, rotateX: -60 }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                  exit={{ opacity: 0, y: -24, rotateX: 60 }}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -24 }}
                   transition={{ duration: 0.35, ease: EASE }}
                   className="inline-block"
                 >
@@ -69,7 +67,7 @@ const Preloader = ({ onComplete }) => {
               initial={{ opacity: 0.6, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.15, ease: EASE }}
-              className="tabular font-display text-[22vw] font-extrabold leading-none tracking-tighter text-iridescent sm:text-[9vw]"
+              className="tabular font-display text-[18vw] font-extrabold leading-none tracking-tighter text-iridescent sm:text-[9vw]"
             >
               {count}
             </motion.span>
@@ -86,12 +84,12 @@ const Preloader = ({ onComplete }) => {
             transition={{ ease: "linear" }}
           />
 
-          {/* Mobile decorative circle */}
+          {/* Mobile decorative circle — contained within viewport */}
           <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 sm:hidden">
             <motion.div
-              className="h-[45vw] w-[45vw] rounded-full border border-cream-100/5"
-              animate={{ scale: [1, 1.15, 1], rotate: [0, 180, 360] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              className="h-[40vw] w-[40vw] rounded-full border border-cream-100/5"
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
             />
           </div>
         </motion.div>
