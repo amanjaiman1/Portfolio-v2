@@ -1,10 +1,12 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { styles } from "../styles";
 import { projects } from "../constants";
 import Reveal, { MaskText, ParallaxReveal } from "./Reveal";
 import { EASE } from "../utils/motion";
+import ProjectModal from "./ProjectModal";
 
-const ProjectCard = ({ project, index }) => {
+const ProjectCard = ({ project, index, onClick }) => {
   const offset = index % 2 === 1 ? "lg:mt-24" : "";
   return (
     <ParallaxReveal
@@ -12,18 +14,17 @@ const ProjectCard = ({ project, index }) => {
       offset={60 + index * 10}
       scaleFrom={0.92}
     >
-      <motion.a
-        href={project.link}
-        target="_blank"
-        rel="noreferrer"
+      <motion.div
         data-cursor
-        whileHover={{ y: -8 }}
+        onClick={() => onClick(project)}
+        whileHover={{ y: -8, scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         transition={{ duration: 0.4, ease: EASE }}
-        className="group block"
+        className="group block cursor-pointer"
       >
         <div className="iris-border relative overflow-hidden rounded-[18px] bg-ink-700 sm:rounded-[20px]">
           <div className="relative aspect-[4/3] w-full overflow-hidden">
-            {/* on-brand fallback shown until the image is uploaded / while loading */}
+            {/* on-brand fallback */}
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-ink-600 via-ink-700 to-ink-800">
               <span className="px-4 text-center font-display text-[34px] font-extrabold leading-none tracking-tighter text-cream-100/10 sm:text-[54px]">
                 {project.name}
@@ -50,6 +51,12 @@ const ProjectCard = ({ project, index }) => {
             </span>
           </div>
 
+          {/* Hover shimmer overlay */}
+          <motion.div
+            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-cream-100/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            style={{ transform: "skewX(-15deg)" }}
+          />
+
           {/* year + role chip */}
           <div className="absolute bottom-4 left-4 flex items-center gap-2">
             <span className="rounded-full bg-ink-900/60 px-3 py-1 font-sans text-[11px] text-cream-100 backdrop-blur-md">
@@ -61,15 +68,13 @@ const ProjectCard = ({ project, index }) => {
           </div>
         </div>
 
-        <div className="mt-6 flex items-start justify-between">
-          <div>
-            <h3 className="font-display text-[22px] font-bold tracking-tight text-cream-100 sm:text-[28px] md:text-[32px]">
-              {project.name}
-            </h3>
-            <p className="mt-2 max-w-md font-sans text-[13px] text-cream-200/70 sm:text-[14px]">
-              {project.description}
-            </p>
-          </div>
+        <div className="mt-5 sm:mt-6">
+          <h3 className="font-display text-[22px] font-bold tracking-tight text-cream-100 sm:text-[28px] md:text-[32px]">
+            {project.name}
+          </h3>
+          <p className="mt-2 max-w-md font-sans text-[13px] text-cream-200/70 sm:text-[14px]">
+            {project.description}
+          </p>
         </div>
 
         <div className="mt-3 flex flex-wrap gap-2">
@@ -82,37 +87,56 @@ const ProjectCard = ({ project, index }) => {
             </span>
           ))}
         </div>
-      </motion.a>
+      </motion.div>
     </ParallaxReveal>
   );
 };
 
 const Works = () => {
-  return (
-    <section id="work" className={`${styles.section} ${styles.paddingY}`}>
-      <div className={styles.container}>
-        <div className="mb-12 flex flex-col gap-4 sm:mb-16 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
-          <h2 className={styles.heading}>
-            <MaskText text="Selected" />
-            <br />
-            <span className="text-iridescent">
-              <MaskText text="Work" delay={0.1} />
-            </span>
-          </h2>
-          <Reveal delay={0.1}>
-            <span className="font-sans text-[13px] text-cream-300">
-              ({String(projects.length).padStart(2, "0")} projects)
-            </span>
-          </Reveal>
-        </div>
+  const [selected, setSelected] = useState(null);
 
-        <div className="grid grid-cols-1 gap-14 md:grid-cols-2 md:gap-x-10 md:gap-y-8">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.name} project={project} index={i} />
-          ))}
+  return (
+    <>
+      <section id="work" className={`${styles.section} ${styles.paddingY}`}>
+        <div className={styles.container}>
+          <div className="mb-12 flex flex-col gap-4 sm:mb-16 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+            <h2 className={styles.heading}>
+              <MaskText text="Selected" />
+              <br />
+              <span className="text-iridescent">
+                <MaskText text="Work" delay={0.1} />
+              </span>
+            </h2>
+            <Reveal delay={0.1}>
+              <span className="font-sans text-[13px] text-cream-300">
+                ({String(projects.length).padStart(2, "0")} projects)
+              </span>
+            </Reveal>
+          </div>
+
+          <div className="grid grid-cols-1 gap-14 md:grid-cols-2 md:gap-x-10 md:gap-y-8">
+            {projects.map((project, i) => (
+              <ProjectCard
+                key={project.name}
+                project={project}
+                index={i}
+                onClick={setSelected}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Full-screen project modal */}
+      <AnimatePresence>
+        {selected && (
+          <ProjectModal
+            project={selected}
+            onClose={() => setSelected(null)}
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

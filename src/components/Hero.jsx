@@ -112,22 +112,32 @@ const Hero = () => {
       </div>
 
       {/* Headline — the showstopper */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[170px] z-10 mx-auto max-w-[1400px] px-5 xs:bottom-[155px] sm:bottom-[112px] sm:px-10 lg:px-16">
+      <div className="pointer-events-none absolute inset-x-0 bottom-[160px] z-10 mx-auto max-w-[1400px] px-5 xs:bottom-[145px] sm:bottom-[112px] sm:px-10 lg:px-16">
         <h1 className={styles.display}>
-          <CharReveal text="Aman" delay={1.3} />
-          <br className="sm:hidden" />
-          <span className="flex flex-wrap items-end gap-x-4 sm:gap-x-6">
+          {/* Mobile: stack vertically */}
+          <span className="block sm:hidden">
+            <CharReveal text="Aman" delay={1.3} />
+          </span>
+          <span className="block sm:hidden">
+            <CharReveal text="Jaiman" delay={1.6} className="text-iridescent" />
+          </span>
+
+          {/* Desktop: inline with subtitle */}
+          <span className="hidden sm:block">
+            <CharReveal text="Aman" delay={1.3} />
+          </span>
+          <span className="hidden items-end gap-x-6 sm:flex">
             <CharReveal text="Jaiman" delay={1.6} className="text-iridescent" />
             <Line
               delay={2.1}
-              className="mb-1 hidden font-serif-soft text-[18px] font-light italic leading-tight text-cream-200 sm:block lg:text-[22px]"
+              className="mb-1 font-serif-soft text-[18px] font-light italic leading-tight text-cream-200 lg:text-[22px]"
             >
               — software, shaped like art.
             </Line>
           </span>
         </h1>
 
-        {/* Tagline with staggered word fade */}
+        {/* Tagline */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
