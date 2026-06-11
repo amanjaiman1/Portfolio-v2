@@ -53,8 +53,8 @@ const Hero = () => {
         </Suspense>
       </div>
 
-      {/* Top labels */}
-      <div className="pointer-events-none absolute inset-x-0 top-[80px] z-10 mx-auto flex max-w-[1400px] items-start justify-between px-5 sm:top-[88px] sm:px-10 lg:px-16">
+      {/* Top labels — hidden on mobile */}
+      <div className="pointer-events-none absolute inset-x-0 top-[80px] z-10 mx-auto hidden max-w-[1400px] items-start justify-between px-5 sm:top-[88px] sm:flex sm:px-10 lg:px-16">
         <div className={styles.eyebrow}>
           <Line delay={1.4}>Creative</Line>
           <Line delay={1.46}>Developer</Line>
