@@ -4,11 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { navLinks } from "../constants";
 import { useLenis, scrollToId } from "./SmoothScroll";
 import { EASE } from "../utils/motion";
-import { useIsMobile } from "../utils/useDevice";
 
 const Navbar = () => {
   const lenis = useLenis();
-  const isMobile = useIsMobile();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -32,9 +30,7 @@ const Navbar = () => {
         transition={{ duration: 1, ease: EASE, delay: 0.2 }}
         className={`fixed inset-x-0 top-0 z-[90] transition-colors duration-500 ${
           scrolled
-            ? `border-b border-cream-100/10 ${
-                isMobile ? "bg-ink-900/95" : "bg-ink-900/70 backdrop-blur-xl"
-              }`
+            ? "border-b border-cream-100/10 bg-ink-900/70 backdrop-blur-xl"
             : "border-b border-transparent"
         }`}
       >
@@ -118,7 +114,7 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
-            className="fixed inset-0 z-[80] flex flex-col justify-center bg-ink-900/98 px-8 md:hidden"
+            className="fixed inset-0 z-[80] flex flex-col justify-center bg-ink-900/95 px-8 backdrop-blur-2xl md:hidden"
           >
             <ul className="flex flex-col gap-2">
               {navLinks.map((link, i) => (
