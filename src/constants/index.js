@@ -41,13 +41,6 @@ export const socials = [
     handle: "in/aman-jaiman",
     url: "https://www.linkedin.com/in/aman-jaiman-b4a36b199/",
   },
-  { name: "Twitter", handle: "@AMANJAIMAN6", url: "https://twitter.com/AMANJAIMAN6" },
-  {
-    name: "Instagram",
-    handle: "@are.jaiman_sahab",
-    url: "https://www.instagram.com/are.jaiman_sahab/",
-  },
-  { name: "Facebook", handle: "aman.jaiman", url: "https://www.facebook.com/aman.jaiman.94" },
 ];
 
 // ---------- About ----------
