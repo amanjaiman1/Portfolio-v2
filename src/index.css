@@ -239,7 +239,10 @@ body {
   .text-iridescent { animation: none; }
 }
 
-/* Mobile performance overrides (phones, <= 768px) */
+/* Mobile performance overrides (phones, <= 768px)
+   Only affects elements DURING SCROLL (navbar, glass panels in page flow).
+   The project modal (z-[200]) is excluded — it's only open briefly and
+   its blur/glass effects are core to the design. */
 @media (max-width: 768px) {
   .grain {
     animation: none;
@@ -250,14 +253,10 @@ body {
     animation: none;
   }
 
-  .glass {
+  /* Exclude modal (.glass inside z-[200] container) */
+  .glass:not([style*="preserve-3d"]) {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     background: rgba(17, 16, 23, 0.82);
-  }
-
-  [class*="backdrop-blur"] {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
   }
 }

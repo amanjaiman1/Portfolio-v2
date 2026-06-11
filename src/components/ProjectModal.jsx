@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EASE } from "../utils/motion";
 import { useLenis } from "./SmoothScroll";
-import { useIsMobile } from "../utils/useDevice";
 
 // Extraordinary entrance: the backdrop sweeps in with blur
 const backdrop = {
@@ -17,8 +16,8 @@ const backdrop = {
   },
 };
 
-// Desktop card: enters from below with a dramatic spring, rotation, and blur clearing
-const cardDesktop = {
+// The card: enters from below with a dramatic spring, slight rotation, and blur clearing
+const card = {
   hidden: {
     opacity: 0,
     y: 100,
@@ -34,7 +33,7 @@ const cardDesktop = {
     filter: "blur(0px)",
     transition: {
       duration: 0.7,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1], // custom spring-like bezier
       staggerChildren: 0.06,
       delayChildren: 0.2,
     },
@@ -52,30 +51,8 @@ const cardDesktop = {
   },
 };
 
-// Mobile card: transform + opacity only (no blur / 3D)
-const cardMobile = {
-  hidden: { opacity: 0, y: 64, scale: 0.92 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: [0.16, 1, 0.3, 1],
-      staggerChildren: 0.05,
-      delayChildren: 0.12,
-    },
-  },
-  exit: {
-    opacity: 0,
-    y: -40,
-    scale: 0.94,
-    transition: { duration: 0.35, ease: EASE },
-  },
-};
-
 // Content items slide up with a stagger
-const itemRevealDesktop = {
+const itemReveal = {
   hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
   show: {
     opacity: 1,
@@ -85,20 +62,8 @@ const itemRevealDesktop = {
   },
 };
 
-const itemRevealMobile = {
-  hidden: { opacity: 0, y: 22 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: EASE },
-  },
-};
-
 const ProjectModal = ({ project, onClose }) => {
   const lenis = useLenis();
-  const isMobile = useIsMobile();
-  const card = isMobile ? cardMobile : cardDesktop;
-  const itemReveal = isMobile ? itemRevealMobile : itemRevealDesktop;
 
   useEffect(() => {
     if (!project) return;
@@ -127,57 +92,32 @@ const ProjectModal = ({ project, onClose }) => {
           animate="show"
           exit="exit"
           onClick={onClose}
-          style={isMobile ? undefined : { perspective: "1200px" }}
+          style={{ perspective: "1200px" }}
         >
           {/* Dark overlay */}
-          {isMobile ? (
-            <div className="absolute inset-0 bg-ink-900/97" />
-          ) : (
-            <motion.div
-              className="absolute inset-0 bg-ink-900/90 backdrop-blur-2xl"
-              initial={{ backdropFilter: "blur(0px)" }}
-              animate={{ backdropFilter: "blur(24px)" }}
-              exit={{ backdropFilter: "blur(0px)" }}
-              transition={{ duration: 0.5, ease: EASE }}
-            />
-          )}
+          <motion.div
+            className="absolute inset-0 bg-ink-900/90 backdrop-blur-2xl"
+            initial={{ backdropFilter: "blur(0px)" }}
+            animate={{ backdropFilter: "blur(24px)" }}
+            exit={{ backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.5, ease: EASE }}
+          />
 
-          {/* Glow orbs */}
-          {isMobile ? (
-            <>
-              <motion.div
-                className="pointer-events-none absolute left-[10%] top-[20%] h-[55vw] w-[55vw] rounded-full bg-iris-lilac/12 blur-3xl"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5, ease: EASE }}
-              />
-              <motion.div
-                className="pointer-events-none absolute bottom-[15%] right-[8%] h-[45vw] w-[45vw] rounded-full bg-iris-blush/10 blur-3xl"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.8 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.6, ease: EASE }}
-              />
-            </>
-          ) : (
-            <>
-              <motion.div
-                className="pointer-events-none absolute left-[10%] top-[20%] h-[30vmax] w-[30vmax] rounded-full bg-iris-lilac/12 blur-[80px]"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.5, opacity: 0 }}
-                transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-              />
-              <motion.div
-                className="pointer-events-none absolute bottom-[15%] right-[8%] h-[25vmax] w-[25vmax] rounded-full bg-iris-blush/10 blur-[60px]"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 0.8 }}
-                exit={{ scale: 0.5, opacity: 0 }}
-                transition={{ duration: 1, delay: 0.15, ease: EASE }}
-              />
-            </>
-          )}
+          {/* Glow orbs — animate in with a pop */}
+          <motion.div
+            className="pointer-events-none absolute left-[10%] top-[20%] h-[30vmax] w-[30vmax] rounded-full bg-iris-lilac/12 blur-[80px]"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.5, opacity: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+          />
+          <motion.div
+            className="pointer-events-none absolute bottom-[15%] right-[8%] h-[25vmax] w-[25vmax] rounded-full bg-iris-blush/10 blur-[60px]"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.8 }}
+            exit={{ scale: 0.5, opacity: 0 }}
+            transition={{ duration: 1, delay: 0.15, ease: EASE }}
+          />
 
           {/* Modal card */}
           <motion.div
@@ -187,7 +127,7 @@ const ProjectModal = ({ project, onClose }) => {
             animate="show"
             exit="exit"
             onClick={(e) => e.stopPropagation()}
-            style={isMobile ? undefined : { transformStyle: "preserve-3d" }}
+            style={{ transformStyle: "preserve-3d" }}
           >
             {/* Image */}
             <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden">
@@ -212,7 +152,7 @@ const ProjectModal = ({ project, onClose }) => {
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent" />
 
-              {/* Close button */}
+              {/* Close button with spin on hover */}
               <motion.button
                 onClick={onClose}
                 data-cursor
