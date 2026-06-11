@@ -110,6 +110,18 @@ export const techStack = [
 // ---------- Experience ----------
 export const experiences = [
   {
+    title: "Instructor — DSA",
+    company: "Gyan Ganga Institute of Technology & Sciences",
+    accent: "#a8ecd0",
+    date: "May 2024 — Nov 2024",
+    isInstructor: true,
+    points: [
+      "Instructed Data Structures & Algorithms to 250+ students over a focused 6-month program.",
+      "Broke down complex topics — trees, graphs, dynamic programming — into intuitive, example-driven lessons.",
+      "Mentored students through problem-solving, coding practice and technical interview preparation.",
+    ],
+  },
+  {
     title: "Founder & Engineer",
     company: "Stealth Startup",
     accent: "#ff9fc4",
@@ -129,18 +141,6 @@ export const experiences = [
       "Engineered responsive, accessible interfaces for an EdTech platform used by learners every day.",
       "Built a reusable React component library and design-system primitives that sped up delivery.",
       "Partnered with design and backend to ship polished, performant UI with smooth, purposeful motion.",
-    ],
-  },
-  {
-    title: "Instructor — DSA",
-    company: "Gyan Ganga Institute of Technology & Sciences",
-    accent: "#a8ecd0",
-    date: "May 2024 — Nov 2024",
-    isInstructor: true,
-    points: [
-      "Instructed Data Structures & Algorithms to 250+ students over a focused 6-month program.",
-      "Broke down complex topics — trees, graphs, dynamic programming — into intuitive, example-driven lessons.",
-      "Mentored students through problem-solving, coding practice and technical interview preparation.",
     ],
   },
   {
