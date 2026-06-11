@@ -1,57 +1,147 @@
-import { delay, motion } from 'framer-motion'
+import { lazy, Suspense, useState } from "react";
+import { motion } from "framer-motion";
 
-import { styles } from '../styles'
-import { manoffice, officeplus } from '../assets'
+import { styles } from "../styles";
+import { profile, blobPresets } from "../constants";
+import { useLenis, scrollToId } from "./SmoothScroll";
+import { EASE } from "../utils/motion";
+
+// Defer the three.js bundle so it loads after first paint (CSS blob shows meanwhile)
+const BlobCanvas = lazy(() => import("./canvas/Blob"));
+
+// A single line that rises from behind a mask — self-contained timing.
+const Line = ({ children, delay = 0, className = "" }) => (
+  <span className="reveal-mask">
+    <motion.span
+      initial={{ y: "110%" }}
+      animate={{ y: "0%" }}
+      transition={{ duration: 1.05, delay, ease: EASE }}
+      className={`block ${className}`}
+    >
+      {children}
+    </motion.span>
+  </span>
+);
 
 const Hero = () => {
+  const lenis = useLenis();
+  const [active, setActive] = useState(0);
+  const preset = blobPresets[active];
+
   return (
-    <section className="relative w-full h-screen mx-auto">
-      <div className = {`${styles.paddingY} absolute inset-0 top-[120px]
-       max-w-7xl mx-auto flex flex-row items-start gap-5 `}>
+    <section
+      id="top"
+      className="relative h-[100svh] min-h-[680px] w-full overflow-hidden"
+    >
+      {/* soft background spotlight */}
+      <div className="spotlight pointer-events-none absolute inset-0" />
 
-        <div className = "flex flex-col justify-center items-center mt-5">
+      {/* CSS fallback blob (sits behind the canvas) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[60vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl transition-colors duration-700"
+        style={{
+          background: `radial-gradient(circle at 35% 35%, ${preset.colorA}, ${preset.colorB} 60%, transparent 75%)`,
+          opacity: 0.5,
+        }}
+      />
 
-          <motion.div 
-          animate = {{
-            scale: [1, 2, 2, 1, 1],
-            rotate: [0, 160, 270, 360, 0],
-            borderRadius: ["20%", "50%", "20%", "50%", "20%"],
-          }}
-          initial = {{
-            borderRadius: ["50%"],
-          }}
-          transition={{
-            duration: 5,
-            repeat: delay,
-          }}
-          className = " translate-y-6 w-10 h-10 rounded-full bg-[#3a2f50]"
-           />
-          <div className = "w-1 sm:h-48 max-sm:h-[405px] bg-[#13072c] " />
-
-        </div>
-
-        <div>
-          <h1 className={`${styles.heroHeadText}
-          text-white typing-demo`}>
-              Hi, I'm <span className="text-[#2a2338] animate-typing"> Aman </span>
-          </h1>
-
-          <p className={`${styles.heroSubText}
-            mt-2 text-[30px] text-white-100 text_shadows`}>
-              <span className="text-[#2a2338] font-bold ">I </span> develop <span className="text-[#2a2338] font-bold"> Eye Seducing </span> Websites
-               <br className="sm:block " />
-              with user friendly.
-            </p>
-        </div>
-
+      {/* Interactive 3D blob */}
+      <div className="absolute inset-0">
+        <Suspense fallback={null}>
+          <BlobCanvas preset={preset} />
+        </Suspense>
       </div>
 
-      <div className='absolute xs:bottom-10 bottom-32 max-sm:top-[60%] w-full flex flex-row justify-center items-center'>
-        <img src={manoffice} alt="" className=" border-b-2 " />
+      {/* Top labels */}
+      <div className="pointer-events-none absolute inset-x-0 top-[88px] z-10 mx-auto flex max-w-[1400px] items-start justify-between px-6 sm:px-10 lg:px-16">
+        <div className={styles.eyebrow}>
+          <Line delay={1.4}>Creative</Line>
+          <Line delay={1.46}>Developer</Line>
+        </div>
+        <div className={`${styles.eyebrow} text-right`}>
+          <Line delay={1.5}>{profile.location} &mdash; Remote</Line>
+          <Line delay={1.56}>{profile.available}</Line>
+        </div>
       </div>
 
+      {/* Headline */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-[120px] z-10 mx-auto max-w-[1400px] px-6 sm:bottom-[112px] sm:px-10 lg:px-16">
+        <h1 className={styles.display}>
+          <Line delay={1.5}>Aman</Line>
+          <span className="flex flex-wrap items-end gap-x-6">
+            <Line delay={1.62}>
+              <span className="text-iridescent">Jaiman</span>
+            </Line>
+            <Line
+              delay={1.78}
+              className="mb-2 hidden font-serif-soft text-[18px] font-light italic leading-tight text-cream-200 sm:block lg:text-[22px]"
+            >
+              — software, shaped like art.
+            </Line>
+          </span>
+        </h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.95, duration: 1, ease: EASE }}
+          className="mt-6 max-w-xl font-sans text-[15px] leading-relaxed text-cream-200/80 sm:text-[17px]"
+        >
+          {profile.tagline}
+        </motion.p>
+      </div>
+
+      {/* Bottom row: mixer + scroll cue */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.1, duration: 1, ease: EASE }}
+        className="absolute inset-x-0 bottom-7 z-20 mx-auto flex max-w-[1400px] items-end justify-between px-6 sm:px-10 lg:px-16"
+      >
+        {/* Blob mixer */}
+        <div className="pointer-events-auto">
+          <p className="mb-2 hidden font-sans text-[10px] uppercase tracking-[0.3em] text-cream-300 sm:block">
+            Mix the blob
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {blobPresets.map((p, i) => (
+              <button
+                key={p.name}
+                data-cursor
+                onClick={() => setActive(i)}
+                className={`rounded-full border px-3 py-1.5 font-sans text-[12px] transition-all duration-300 ${
+                  active === i
+                    ? "border-transparent bg-cream-100 text-ink-900"
+                    : "border-cream-100/20 text-cream-200 hover:border-cream-100/50"
+                }`}
+              >
+                {p.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Scroll cue */}
+        <button
+          data-cursor
+          onClick={() => scrollToId(lenis, "about")}
+          className="pointer-events-auto hidden flex-col items-center gap-2 sm:flex"
+        >
+          <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-cream-300">
+            Scroll
+          </span>
+          <span className="relative flex h-12 w-[1px] overflow-hidden bg-cream-100/20">
+            <motion.span
+              className="absolute left-0 top-0 h-1/2 w-full bg-cream-100"
+              animate={{ y: ["-100%", "200%"] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </span>
+        </button>
+      </motion.div>
     </section>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;

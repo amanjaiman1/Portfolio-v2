@@ -1,138 +1,65 @@
-import React from 'react'
-import Tilt from 'react-parallax-tilt'
-import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
-
-import { styles } from '../styles'
-import { services } from '../constants'
-import { fadeIn, fadeInCard, textVariant, textVariant1 }  from '../utils/motion';
-
-import { SectionWrapper } from '../hoc'
-
-const ServiceCard = ({ index, title, icon }) => {
-  return (
-    <Tilt className="xs:w-[250px] w-full card">
-      <motion.div 
-        variants={fadeInCard("left", "bounce", .5 * index, 0.75)}
-        className = "w-full bg-[#020810a1]  p-[1px] rounded-[20px] shadow-card "
-      
-      >
-
-        <div
-          options = {{
-            max: 45,
-            scale: 1,
-            speed: 450
-          }}
-          className="face face1 backdrop:blur-sm rounded-[20px]
-           py-5 px-12 min-h-[280px]  flex justify-evenly
-           items-center flex-col"
-        >
-
-          <img src={icon} alt={title}
-            className="w-16 h-16 object-contain" />
-          <h3 className="text-white text-[20px] 
-          font-bold text-center ">{title}</h3>
-
-        </div>
-
-      </motion.div>
-    </Tilt>
-  )
-}
-
-const ServiceCard2 = ({ index, title, icon }) => {
-  return (
-    <Tilt className="w-[250px] justify-center ml-10">
-      <motion.div 
-        className = "w-full bg-[#020810a1]  p-[1px] rounded-[20px] shadow-card "
-      
-      >
-
-        <div
-          options = {{
-            max: 45,
-            scale: 1,
-            speed: 450
-          }}
-          className="backdrop:blur-sm rounded-[20px]
-           py-5 px-12 min-h-[280px]  flex justify-evenly
-           items-center flex-col"
-        >
-
-          <img src={icon} alt={title}
-            className="w-16 h-16 object-contain" />
-          <h3 className="text-white text-[20px] 
-          font-bold text-center ">{title}</h3>
-
-        </div>
-
-      </motion.div>
-    </Tilt>
-  )
-}
-
+import { styles } from "../styles";
+import { about, techStack } from "../constants";
+import Reveal, { MaskText } from "./Reveal";
+import Marquee from "./Marquee";
 
 const About = () => {
-  const [scroll, setScroll] = useState(false);
- useEffect(() => {
-   window.addEventListener("scroll", () => {
-     setScroll(window.scrollY > 500);
-   });
- }, [5000]);
-
   return (
-    <>
-      <motion.div variants={textVariant()} >
-        <p className={`  ${scroll ? "text-[#000000] letter" : "text-[#fdfdfd]" } ${styles.sectionSubText} mt-10  `}
-        >Introduction</p>
-      </motion.div>
-      <motion.div variants={textVariant1()}>
-      <h2 className={styles.sectionHeadText}
-        >Overview</h2>
-      </motion.div>
-
-      <motion.p 
-        variants= {fadeIn("", "", 0.1, 1)}
-        className=" text-[13px]"
-      >
-       I'm an expert software developer with expertise in Java,
-        Javascript, Node.js, React.js, and Three.js. I am quick
-         to pick things up and work closely with customers to create
-         solutions that are practical, scalable, and user-friendly.
-         Let's work together to bring your ideas to life.
-
-      </motion.p>
-      <br />
-      <p className="border-b-2 border-[#70ebc0] "></p>
-  
-
-      <motion.div
-        whileTap={{ scale: 0, rotateY: -90 ,borderRadius:"50%" }}
-      >
-
-      <div className="mt-20 flex flex-wrap max-sm:hidden gap-10">
-        {services.map((service, index) => (
-          <ServiceCard key={service.title} index={index} {...service} />
-        ))}
+    <section id="about" className={`${styles.section} ${styles.paddingY}`}>
+      {/* Tech marquee strip */}
+      <div className="border-y border-cream-100/10 py-5">
+        <Marquee
+          items={techStack}
+          duration="38s"
+          className="font-display text-[26px] font-semibold text-cream-100/90 sm:text-[34px]"
+        />
       </div>
-      </motion.div>
 
-      {/* for mobile only  */}
+      <div className={`${styles.container} pt-20`}>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-3">
+            <Reveal>
+              <p className={styles.eyebrow}>(About)</p>
+            </Reveal>
+          </div>
 
-      <motion.div>
-      <div className="mt-20 flex-wrap flex sm:hidden gap-10">
-        {services.map((service, index) => (
-          <ServiceCard2 key={service.title} index={index} {...service} />
-        ))}
+          <div className="lg:col-span-9">
+            <h2 className="font-display text-[30px] font-bold leading-[1.15] tracking-tight text-cream-100 sm:text-[44px] lg:text-[56px]">
+              <MaskText text="I build for the web where" />
+              <br className="hidden sm:block" />
+              <span className="font-serif-soft font-light italic text-iridescent">
+                <MaskText text="engineering meets emotion." delay={0.15} />
+              </span>
+            </h2>
+
+            <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+              {about.paragraphs.map((p, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <p className={styles.body}>{p}</p>
+                </Reveal>
+              ))}
+            </div>
+
+            {/* Stats */}
+            <div className="mt-16 grid grid-cols-3 gap-6 border-t border-cream-100/10 pt-10">
+              {about.stats.map((s, i) => (
+                <Reveal key={s.label} delay={i * 0.08}>
+                  <div>
+                    <p className="font-display text-[40px] font-extrabold leading-none tracking-tighter text-cream-100 sm:text-[60px]">
+                      {s.value}
+                    </p>
+                    <p className="mt-2 font-sans text-[12px] uppercase tracking-[0.2em] text-cream-300">
+                      {s.label}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-      </motion.div>
+    </section>
+  );
+};
 
-
-
-
-    </>
-  )
-}
-
-export default SectionWrapper(About, "about")
+export default About;

@@ -1,145 +1,56 @@
-export const textVariant = (delay) => {
-    return {
-      hidden: {
-        x: -150,
-        opacity: 0,
-      },
-      show: {
-        x: 0,
-        opacity: 1,
-        transition: {
-          type: "spring",
-          duration: 2.25,
-          delay: delay,
-        },
-      },
-    };
-  };
+// Shared easing — soft, editorial (Pola) feel
+export const EASE = [0.16, 1, 0.3, 1];
+export const EASE_SOFT = [0.65, 0, 0.35, 1];
 
-  export const textVariant1 = (delay) => {
-    return {
-      hidden: {
-        y: 120,
-        opacity: 0,
-      },
-      show: {
-        y: 0,
-        opacity: 1,
-        transition: {
-          type: "spring",
-          duration: 1.25,
-          delay: delay,
-        },
-      },
-    };
-  };
+export const fadeUp = (delay = 0, y = 40, duration = 1) => ({
+  hidden: { opacity: 0, y },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration, delay, ease: EASE },
+  },
+});
 
-  export const textVariant2 = (delay) => {
-    return {
-      hidden: {
-        x: 1020,
-        opacity: 0,
-      },
-      show: {
-        x: 0,
-        opacity: 1,
-        transition: {
-          type: "spring",
-          duration: 1.25,
-          delay: delay,
-        },
-      },
-    };
-  };
-  
-  export const fadeIn = (direction, type, delay, duration) => {
-    return {
-      hidden: {
-        x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-        y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
-        opacity: 0,
-      },
-      show: {
-        x: 0,
-        y: 0,
-        opacity: 1,
-        transition: {
-          type: type,
-          delay: delay,
-          duration: duration,
-          ease: "easeOut",
-        },
-      },
-    };
-  };
+export const fadeIn = (delay = 0, duration = 1) => ({
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration, delay, ease: EASE } },
+});
 
-  export const fadeInCard = (direction, type, delay, duration) => {
-    return {
-      hidden: {
-        x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-        y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
-        opacity: 0,
-      },
-      show: {
-        x: 0,
-        y: 50,
-        opacity: 1,
-        transition: {
-          type: type,
-          delay: delay,
-          duration: duration,
-          ease: "easeOut",
-        },
-      },
-    };
-  };
-  
-  export const zoomIn = (delay, duration) => {
-    return {
-      hidden: {
-        scale: 0,
-        opacity: 0,
-      },
-      show: {
-        scale: 1,
-        opacity: 1,
-        transition: {
-          type: "tween",
-          delay: delay,
-          duration: duration,
-          ease: "easeOut",
-        },
-      },
-    };
-  };
-  
-  export const slideIn = (direction, type, delay, duration) => {
-    return {
-      hidden: {
-        x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
-        y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
-      },
-      show: {
-        x: 0,
-        y: 0,
-        transition: {
-          type: type,
-          delay: delay,
-          duration: duration,
-          ease: "easeInOut",
-        },
-      },
-    };
-  };
-  
-  export const staggerContainer = (staggerChildren, delayChildren) => {
-    return {
-      hidden: {},
-      show: {
-        transition: {
-          staggerChildren: staggerChildren,
-          delayChildren: delayChildren || 0,
-        },
-      },
-    };
-  };
+// Word / line reveal that rises from behind a mask
+export const lineReveal = (delay = 0) => ({
+  hidden: { y: "110%" },
+  show: {
+    y: "0%",
+    transition: { duration: 1.05, delay, ease: EASE },
+  },
+});
+
+export const scaleReveal = (delay = 0) => ({
+  hidden: { opacity: 0, scale: 0.92 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 1.1, delay, ease: EASE },
+  },
+});
+
+export const slideIn = (direction = "left", delay = 0, duration = 1) => ({
+  hidden: {
+    x: direction === "left" ? -80 : direction === "right" ? 80 : 0,
+    y: direction === "up" ? 80 : direction === "down" ? -80 : 0,
+    opacity: 0,
+  },
+  show: {
+    x: 0,
+    y: 0,
+    opacity: 1,
+    transition: { duration, delay, ease: EASE },
+  },
+});
+
+export const staggerContainer = (stagger = 0.08, delayChildren = 0) => ({
+  hidden: {},
+  show: {
+    transition: { staggerChildren: stagger, delayChildren },
+  },
+});

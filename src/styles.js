@@ -1,19 +1,26 @@
 const styles = {
-    paddingX: "sm:px-16 px-6",
-    paddingY: "sm:py-16 py-6",
-    padding: "sm:px-16 px-6 sm:py-16 py-10",
-  
-    heroHeadText:
-      "font-black text-white lg:text-[50px] sm:text-[60px] xs:text-[50px] text-[40px] lg:leading-[98px] mt-2",
-    heroSubText:
-      "text-[#dfd9ff] font-medium lg:text-[30px] sm:text-[26px] xs:text-[20px] text-[16px] lg:leading-[40px]",
-  
-    sectionHeadText:
-      "text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]",
-    sectionSubText:
-      "sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider",
-    errorText:
-      "sm:text-[13px] text-[] mt-2 text-[14px] text-secondary uppercase tracking-wider",
-  };
-  
-  export { styles };
+  // Layout
+  section: "relative w-full",
+  container: "mx-auto w-full max-w-[1400px] px-6 sm:px-10 lg:px-16",
+  paddingY: "py-24 md:py-32",
+
+  // Eyebrow / section label
+  eyebrow:
+    "font-sans text-[11px] sm:text-[12px] uppercase tracking-[0.35em] text-cream-300",
+
+  // Display headings (Syne)
+  display:
+    "font-display font-extrabold leading-[0.92] tracking-tighter text-cream-100 text-[13vw] sm:text-[10vw] lg:text-[8.5vw]",
+  heading:
+    "font-display font-bold leading-[0.95] tracking-tighter text-cream-100 text-[40px] sm:text-[56px] lg:text-[76px]",
+  subheading:
+    "font-display font-semibold leading-[1.05] tracking-tight text-cream-100 text-[28px] sm:text-[36px] lg:text-[44px]",
+
+  // Body
+  lead:
+    "font-sans text-cream-200 text-[18px] sm:text-[20px] lg:text-[22px] leading-[1.55]",
+  body: "font-sans text-cream-200/80 text-[15px] sm:text-[16px] leading-[1.7]",
+  small: "font-sans text-cream-300 text-[13px] leading-[1.6]",
+};
+
+export { styles };

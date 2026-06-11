@@ -1,192 +1,106 @@
-import Tilt from 'react-parallax-tilt';
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
+import { styles } from "../styles";
+import { projects } from "../constants";
+import Reveal, { MaskText } from "./Reveal";
+import { EASE } from "../utils/motion";
 
-import { styles } from '../styles'; 
-import { github, juicyboy, studying } from '../assets';
-import { SectionWrapper } from '../hoc';
-import { projects } from '../constants';
-import { fadeIn,fadeInCard, textVariant } from '../utils/motion';
+const ProjectCard = ({ project, index }) => {
+  const offset = index % 2 === 1 ? "lg:mt-24" : "";
+  return (
+    <motion.a
+      href={project.link}
+      target="_blank"
+      rel="noreferrer"
+      data-cursor
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 1, ease: EASE }}
+      className={`group block ${offset}`}
+    >
+      <div className="iris-border relative overflow-hidden rounded-[20px] bg-ink-700">
+        <div className="aspect-[4/3] w-full overflow-hidden">
+          <img
+            src={project.image}
+            alt={project.name}
+            loading="lazy"
+            className="h-full w-full object-cover opacity-90 transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:opacity-100"
+          />
+        </div>
 
-const ProjectCard = ({ index, name, description,
-   tags, image,minImg, source_code_link }) => {
-    return (
-      <motion.div variants={fadeInCard("right", "bounce", .5 * index, 0.75)}
-       className="rounded-[50%]"
-       >
+        {/* gradient veil */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/70 via-transparent to-transparent" />
 
-        <Tilt 
-          options={{
-            max:45,
-            scale: 1,
-            speed: 950
-          }}
-          className = " box  p-5 rounded-[3px] sm:w-[360px] w-full"
-        >
+        {/* corner arrow */}
+        <div className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-cream-100/10 backdrop-blur-md transition-all duration-500 group-hover:bg-cream-100 group-hover:text-ink-900">
+          <span className="text-[18px] transition-transform duration-500 group-hover:rotate-45">
+            &#8599;
+          </span>
+        </div>
 
-          <div className="relative w-full h-[230px]">
-            <img
-             src={image}
-             alt={name}
-             className = "w-full h-full object-cover rounded-2xl"
-             />
+        {/* year + role chip */}
+        <div className="absolute bottom-4 left-4 flex items-center gap-2">
+          <span className="rounded-full bg-ink-900/60 px-3 py-1 font-sans text-[11px] text-cream-100 backdrop-blur-md">
+            {project.role}
+          </span>
+          <span className="rounded-full bg-ink-900/60 px-3 py-1 font-sans text-[11px] text-cream-300 backdrop-blur-md">
+            {project.year}
+          </span>
+        </div>
+      </div>
 
-             <div className="absolute inset-0 flex justify-end
-              m-3 card-img_hover ">
-                <div 
-                onClick={() => window.open(source_code_link, "blank")}
-                className="black-gradient w-10 h-10 rounded-full
-                  flex justify-center items-center cursor-pointer "
-                >
-                  <img
-                   src={minImg}
-                   alt="github sources"
-                   className="w-1/2 h-1/2 object-contain" />
+      <div className="mt-6 flex items-start justify-between">
+        <div>
+          <h3 className="font-display text-[26px] font-bold tracking-tight text-cream-100 sm:text-[32px]">
+            {project.name}
+          </h3>
+          <p className="mt-2 max-w-md font-sans text-[14px] text-cream-200/70">
+            {project.description}
+          </p>
+        </div>
+      </div>
 
-                </div>
-             </div>
-          </div>
-
-          <div className="mt-5">
-            <h3 className="text-white font-bold text-[24px]">{name}</h3>
-            <p className="mt-2 text-secondary text-[14px]">{description}</p>
-          </div>
-
-          <div className="mt-4 flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <p
-                key={tag.name}
-                className={`text-[14px] ${tag.color}`}>
-                  #{tag.name}
-                </p>
-            ))}
-
-          </div>
-
-        </Tilt>
-
-      </motion.div>
-    )
-   }
-
-   const ProjectCard2 = ({ index, name, description,
-    tags, image,minImg, source_code_link }) => {
-     return (
-       <motion.div 
-        className="rounded-[50%]"
-        >
- 
-         <Tilt 
-           options={{
-             max:45,
-             scale: 1,
-             speed: 950
-           }}
-           className = " box  p-5 rounded-[3px] sm:w-[360px] w-full"
-         >
- 
-           <div className="relative w-full h-[230px]">
-             <img
-              src={image}
-              alt={name}
-              className = "w-full h-full object-cover rounded-2xl"
-              />
- 
-              <div className="absolute inset-0 flex justify-end
-               m-3 card-img_hover ">
-                 <div 
-                 onClick={() => window.open(source_code_link, "blank")}
-                 className="black-gradient w-10 h-10 rounded-full
-                   flex justify-center items-center cursor-pointer "
-                 >
-                   <img
-                    src={minImg}
-                    alt="github sources"
-                    className="w-1/2 h-1/2 object-contain" />
- 
-                 </div>
-              </div>
-           </div>
- 
-           <div className="mt-5">
-             <h3 className="text-white font-bold text-[24px]">{name}</h3>
-             <p className="mt-2 text-secondary text-[14px]">{description}</p>
-           </div>
- 
-           <div className="mt-4 flex flex-wrap gap-2">
-             {tags.map((tag) => (
-               <p
-                 key={tag.name}
-                 className={`text-[14px] ${tag.color}`}>
-                   #{tag.name}
-                 </p>
-             ))}
- 
-           </div>
- 
-         </Tilt>
- 
-       </motion.div>
-     )
-    }
-
+      <div className="mt-4 flex flex-wrap gap-2">
+        {project.tags.map((t) => (
+          <span
+            key={t}
+            className="font-sans text-[12px] text-cream-300"
+          >
+            #{t}
+          </span>
+        ))}
+      </div>
+    </motion.a>
+  );
+};
 
 const Works = () => {
   return (
-    <>
-    <motion.div  variants={ textVariant() } className="border-t-2 pt-2 border-cyan-300">
-    <p className={styles.sectionSubText}>
-      My work
-    </p>
-    <h2 className={styles.sectionHeadText}>
-      Projects
-    </h2>
-    </motion.div>
+    <section id="work" className={`${styles.section} ${styles.paddingY}`}>
+      <div className={styles.container}>
+        <div className="mb-16 flex items-end justify-between gap-6">
+          <h2 className={styles.heading}>
+            <MaskText text="Selected" />
+            <br />
+            <span className="text-iridescent">
+              <MaskText text="Work" delay={0.1} />
+            </span>
+          </h2>
+          <Reveal delay={0.1}>
+            <span className="font-sans text-[13px] text-cream-300">
+              ({String(projects.length).padStart(2, "0")} projects)
+            </span>
+          </Reveal>
+        </div>
 
-    <div className="w-full sm:flex gap-52">
-      <motion.p 
-      variants={fadeIn("", "", 0.1, 1)}
-      className = "mt-3 text-secondary sm:text-[17px] text-[13px] max-w-3xl leading-[30px] "
-      >
-        Following projects showcases my skills
-        and experience through
-        real-world examples of my work. Each
-        project is breifly described with 
-        links to code repositories and live demos in it.
-         It reflects my abillity to solve complex 
-         problems, work with different technologies,
-         and manage projects effectively.
-      </motion.p>
-      <img className="h-[250px] mt-[-100px] max-sm:mt-3 max-sm:ml-auto " src={studying} alt="" />
-    </div>
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-x-10 md:gap-y-6">
+          {projects.map((project, i) => (
+            <ProjectCard key={project.name} project={project} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
-    <div className="mt-20 flex max-sm:hidden flex-wrap gap-7">
-    
-      {projects.map((project, index) => (
-        <ProjectCard 
-          key={`project-${index}`}
-          index = {index}
-          {...project}
-        />
-      ))}
-      <img className="h-[350px] mt-[90px] ml-[35%]  " src={juicyboy} alt="" />
-
-    </div>
-
-    {/* for Mobile Only  */}
-
-    <div className="mt-20 sm:hidden flex flex-wrap gap-7">
-    
-      {projects.map((project, index) => (
-        <ProjectCard2 
-          key={`project-${index}`}
-          index = {index}
-          {...project}
-        />
-      ))}
-    </div>
-
-    </>
-  )
-}
-
-export default SectionWrapper(Works, "")
+export default Works;

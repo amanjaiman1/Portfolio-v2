@@ -17,6 +17,7 @@
     "emailjs-com": "^3.2.0",
     "formik": "^2.2.9",
     "framer-motion": "^10.8.5",
+    "lenis": "^1.3.23",
     "maath": "^0.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
