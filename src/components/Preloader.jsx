@@ -2,96 +2,119 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EASE } from "../utils/motion";
 
-const words = ["Design", "Develop", "Delight", "Aman Jaiman"];
-
+/**
+ * Cinematic split-curtain preloader.
+ * Two halves slide apart to reveal the site, with the name
+ * fading in at the center during the load.
+ */
 const Preloader = ({ onComplete }) => {
-  const [count, setCount] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [done, setDone] = useState(false);
-  const [wordIndex, setWordIndex] = useState(0);
 
-  // count 0 -> 100
+  // Simulate loading progress
   useEffect(() => {
     let current = 0;
     const tick = () => {
-      const step = Math.max(1, Math.round((100 - current) / 12));
+      const remaining = 100 - current;
+      const step = Math.max(1, Math.round(remaining / 8));
       current = Math.min(100, current + step);
-      setCount(current);
+      setProgress(current);
       if (current < 100) {
-        setTimeout(tick, 90);
+        setTimeout(tick, 80);
       } else {
-        setTimeout(() => setDone(true), 450);
+        setTimeout(() => setDone(true), 600);
       }
     };
-    const id = setTimeout(tick, 250);
+    const id = setTimeout(tick, 200);
     return () => clearTimeout(id);
-  }, []);
-
-  // rotate words
-  useEffect(() => {
-    const id = setInterval(() => {
-      setWordIndex((i) => (i + 1) % words.length);
-    }, 360);
-    return () => clearInterval(id);
   }, []);
 
   return (
     <AnimatePresence onExitComplete={onComplete}>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[10000] flex flex-col items-center justify-center overflow-hidden bg-ink-900 px-5 sm:flex-row sm:items-end sm:justify-between sm:px-10 sm:pb-10 lg:px-16"
-          exit={{ y: "-100%" }}
-          transition={{ duration: 1.05, ease: EASE }}
+          className="fixed inset-0 z-[10000] overflow-hidden"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4, ease: EASE }}
         >
-          {/* Word rotation */}
-          <div className="flex items-center justify-center sm:items-end sm:justify-start">
-            <span className="font-display text-[11vw] font-extrabold leading-none tracking-tighter text-cream-100 sm:text-[7vw]">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={wordIndex}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -24 }}
-                  transition={{ duration: 0.35, ease: EASE }}
-                  className="inline-block"
-                >
-                  {words[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </span>
-          </div>
-
-          {/* Counter */}
-          <div className="mt-6 flex flex-col items-center sm:mt-0 sm:items-end">
-            <motion.span
-              key={count}
-              initial={{ opacity: 0.6, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.15, ease: EASE }}
-              className="tabular font-display text-[18vw] font-extrabold leading-none tracking-tighter text-iridescent sm:text-[9vw]"
-            >
-              {count}
-            </motion.span>
-            <span className="mt-2 font-sans text-[10px] uppercase tracking-[0.4em] text-cream-300 sm:mt-1 sm:text-[11px]">
-              Loading
-            </span>
-          </div>
-
-          {/* Progress bar */}
+          {/* Top curtain half */}
           <motion.div
-            className="absolute bottom-0 left-0 h-[3px] bg-gradient-to-r from-iris-lilac via-iris-blush to-iris-sky sm:h-[2px]"
-            initial={{ width: "0%" }}
-            animate={{ width: `${count}%` }}
-            transition={{ ease: "linear" }}
+            className="absolute inset-x-0 top-0 h-1/2 bg-ink-900"
+            exit={{ y: "-100%" }}
+            transition={{ duration: 0.9, ease: EASE }}
           />
 
-          {/* Mobile decorative circle — contained within viewport */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 sm:hidden">
+          {/* Bottom curtain half */}
+          <motion.div
+            className="absolute inset-x-0 bottom-0 h-1/2 bg-ink-900"
+            exit={{ y: "100%" }}
+            transition={{ duration: 0.9, ease: EASE }}
+          />
+
+          {/* Center content */}
+          <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6">
+            {/* Name reveal */}
             <motion.div
-              className="h-[40vw] w-[40vw] rounded-full border border-cream-100/5"
-              animate={{ rotate: [0, 360] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-            />
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
+              className="text-center"
+            >
+              <h1 className="font-display text-[8vw] font-extrabold leading-none tracking-tighter text-cream-100 sm:text-[4vw]">
+                Aman Jaiman
+              </h1>
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
+                className="mt-3 font-sans text-[12px] uppercase tracking-[0.3em] text-cream-300 sm:text-[13px]"
+              >
+                Creative Developer
+              </motion.p>
+            </motion.div>
+
+            {/* Minimal progress indicator */}
+            <div className="absolute bottom-12 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3 sm:bottom-16">
+              {/* Thin progress line */}
+              <div className="h-[1px] w-[120px] overflow-hidden bg-cream-100/10 sm:w-[160px]">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-iris-lilac to-iris-blush"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ ease: "linear", duration: 0.1 }}
+                />
+              </div>
+              <span className="tabular font-sans text-[11px] tracking-widest text-cream-300/60">
+                {progress}%
+              </span>
+            </div>
           </div>
+
+          {/* Subtle corner accents */}
+          <motion.div
+            className="pointer-events-none absolute left-6 top-6 h-[1px] bg-cream-100/20 sm:left-10 sm:top-10"
+            initial={{ width: 0 }}
+            animate={{ width: 40 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
+          />
+          <motion.div
+            className="pointer-events-none absolute left-6 top-6 w-[1px] bg-cream-100/20 sm:left-10 sm:top-10"
+            initial={{ height: 0 }}
+            animate={{ height: 40 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
+          />
+          <motion.div
+            className="pointer-events-none absolute bottom-6 right-6 h-[1px] bg-cream-100/20 sm:bottom-10 sm:right-10"
+            initial={{ width: 0 }}
+            animate={{ width: 40 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
+          />
+          <motion.div
+            className="pointer-events-none absolute bottom-6 right-6 w-[1px] bg-cream-100/20 sm:bottom-10 sm:right-10"
+            initial={{ height: 0 }}
+            animate={{ height: 40 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
+          />
         </motion.div>
       )}
     </AnimatePresence>

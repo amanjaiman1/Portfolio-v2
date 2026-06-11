@@ -298,6 +298,14 @@ export const testimonials = [
 // ---------- Blob mixer presets (Blobmixer-inspired) ----------
 export const blobPresets = [
   {
+    name: "Dusk",
+    colorA: "#b9a7ff",
+    colorB: "#ff9fc4",
+    distort: 0.48,
+    metalness: 0.8,
+    roughness: 0.15,
+  },
+  {
     name: "Aurora",
     colorA: "#b9a7ff",
     colorB: "#9fd6ff",
@@ -320,13 +328,5 @@ export const blobPresets = [
     distort: 0.6,
     metalness: 1.0,
     roughness: 0.06,
-  },
-  {
-    name: "Dusk",
-    colorA: "#b9a7ff",
-    colorB: "#ff9fc4",
-    distort: 0.48,
-    metalness: 0.8,
-    roughness: 0.15,
   },
 ];
