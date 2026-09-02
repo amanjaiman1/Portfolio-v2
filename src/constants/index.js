@@ -51,7 +51,7 @@ export const about = {
   ],
   stats: [
     { value: "4+", label: "Years building" },
-    { value: "18+", label: "Projects shipped" },
+    { value: "22+", label: "Projects shipped" },
     { value: "250+", label: "Students taught" },
   ],
 };
@@ -190,6 +190,54 @@ export const experiences = [
 // Newest first. Images for the 2026 projects live in /public/projects and are
 // referenced by path (uploaded manually), so they work without an import.
 export const projects = [
+  {
+    name: "Aevoura",
+    year: "2026",
+    role: "Template Studio",
+    description:
+      "A commercial storefront for premium website templates — browse the collection, try a real live demo, then buy the source or commission a custom build. Every order composes a structured email, so it sells properly without a payment gateway.",
+    tags: ["Next.js", "React 19", "TypeScript", "Tailwind CSS", "GSAP"],
+    image: "/projects/aevoura.webp",
+    link: "https://aevoura.vercel.app",
+    linkIcon: live,
+    linkLabel: "Live",
+  },
+  {
+    name: "Aabha",
+    year: "2026",
+    role: "Jewellery House",
+    description:
+      "An editorial site for a jewellery house that never sells online — there is no cart, and every action on the page ends in a telephone call. Four complete art directions ship from a single codebase.",
+    tags: ["React", "Vite", "TypeScript", "Tailwind CSS", "GSAP", "Three.js"],
+    image: "/projects/aabha.webp",
+    link: "https://temp-jwel.vercel.app/",
+    linkIcon: live,
+    linkLabel: "Live",
+  },
+  {
+    name: "Section",
+    year: "2026",
+    role: "Architecture Studio",
+    description:
+      "An architecture portfolio drawn like a building section — a twelve-scene film with a travelling elevation rail, a 1:200 plan that draws itself and a draggable before-and-after threshold.",
+    tags: ["React", "Vite", "TypeScript", "Tailwind CSS", "GSAP", "Lenis"],
+    image: "/projects/section.webp",
+    link: "https://temp-interior.vercel.app/",
+    linkIcon: live,
+    linkLabel: "Live",
+  },
+  {
+    name: "Point of View",
+    year: "2026",
+    role: "Personal Brand",
+    description:
+      "A personal-brand site for an educator, built as an editorial magazine that argues its case across twenty sections — five switchable themes and email-first CTAs that convert without a checkout.",
+    tags: ["React", "Vite", "TypeScript", "Tailwind CSS", "GSAP", "Lenis"],
+    image: "/projects/pointofview.webp",
+    link: "https://temp-marketing-eight.vercel.app/",
+    linkIcon: live,
+    linkLabel: "Live",
+  },
   {
     name: "Warlife",
     year: "2026",
