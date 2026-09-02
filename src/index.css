@@ -99,14 +99,10 @@ body {
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
-  animation: grainShift 0.6s steps(3) infinite;
-}
-
-@keyframes grainShift {
-  0% { transform: translate(0, 0); }
-  33% { transform: translate(-2%, 1%); }
-  66% { transform: translate(1%, -2%); }
-  100% { transform: translate(0, 0); }
+  /* Deliberately not animated. This layer is exactly viewport-sized, so any
+     transform slides it off and leaves the edges uncovered — and because the
+     grain lightens the near-black background, those uncovered strips read as
+     dark bands flickering along the left, right and bottom of the screen. */
 }
 
 /* ---------- Custom cursor ---------- */
@@ -235,7 +231,6 @@ body {
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .grain { animation: none; }
   .text-iridescent { animation: none; }
 }
 
@@ -245,7 +240,6 @@ body {
    its blur/glass effects are core to the design. */
 @media (max-width: 768px) {
   .grain {
-    animation: none;
     opacity: 0.04;
   }
 
